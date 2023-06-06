@@ -21,9 +21,9 @@ public:
     template<typename... Dims>
     explicit Tensor(Dims... dims);
 
-    T &operator[](std::array<size_t, D> indices);
+    T &operator[](Index<T, D> index);
 
-    T &operator[](Index<T, D> &index);
+    T &operator[](std::array<size_t, D> indices);
 
     Tensor &operator=(const View<T, D> &view);
 

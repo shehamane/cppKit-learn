@@ -31,6 +31,8 @@ public:
 
     bool operator!=(const T *other);
 
+    bool operator<=(const T *other);
+
     T &operator*() const;
 
     T *operator->() const;

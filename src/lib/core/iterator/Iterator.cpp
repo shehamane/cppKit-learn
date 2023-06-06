@@ -26,6 +26,12 @@ bool Iterator<T, D>::operator!=(const T *other) {
 }
 
 template<typename T, std::size_t D>
+bool Iterator<T, D>::operator<=(const T *other) {
+    return ptr_ <= other;
+}
+
+
+template<typename T, std::size_t D>
 T &Iterator<T, D>::operator*() const {
     return *ptr_;
 }

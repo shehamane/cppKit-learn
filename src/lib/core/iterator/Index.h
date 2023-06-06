@@ -17,6 +17,8 @@ private:
 public:
     explicit Index(Iterable<T, D> *iterable);
 
+    explicit Index(Iterable<T, D> *iterable, std::array<std::size_t, D> indices);
+
     std::array<std::size_t, D> indices();
 
     void next();
@@ -27,7 +29,6 @@ public:
 
     std::string toString();
 };
-
 
 #include "Index.cpp"
 

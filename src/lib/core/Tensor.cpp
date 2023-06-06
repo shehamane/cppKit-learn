@@ -11,6 +11,15 @@ Tensor<T, D>::Tensor(Dims... dims) : shape_{dims...} {
 }
 
 template<typename T, size_t D>
+T &Tensor<T, D>::operator[](Index<T, D> index) {
+    size_t flatIndex = 0;
+    for (size_t i = 0; i < shape_.size(); i++) {
+        flatIndex = flatIndex * shape_[i] + index.indices()[i];
+    }
+    return data_[flatIndex];
+}
+
+template<typename T, size_t D>
 T &Tensor<T, D>::operator[](std::array<size_t, D> indices) {
     size_t index = 0;
     for (size_t i = 0; i < shape_.size(); i++) {
@@ -18,6 +27,7 @@ T &Tensor<T, D>::operator[](std::array<size_t, D> indices) {
     }
     return data_[index];
 }
+
 
 //template<typename T, size_t D>
 //Tensor<T, D>& Tensor<T, D>::operator=(const View<T, D>& view) {
@@ -48,5 +58,5 @@ T *Tensor<T, D>::start() {
 
 template<typename T, size_t D>
 T *Tensor<T, D>::end() {
-    return &(*data_.end());
+    return &data_[data().size()-1];
 }

@@ -6,11 +6,15 @@
 #include <array>
 
 template <typename T, std::size_t D>
+class Index;
+
+template <typename T, std::size_t D>
 class Iterable{
 public:
     virtual T* start() = 0;
     virtual T* end() = 0;
     virtual std::array<std::size_t, D> shape() = 0;
+    virtual T& operator[](Index<T, D> index) = 0;
 };
 
 #endif //CPPKIT_LEARN_ITERABLE_H

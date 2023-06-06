@@ -7,6 +7,11 @@ Index<T, D>::Index(Iterable<T, D> *iterable)
         : index_(std::array<std::size_t, D>{}), shape_(iterable->shape()), dims_(iterable->shape().size()) {}
 
 template<typename T, std::size_t D>
+Index<T, D>::Index(Iterable<T, D> *iterable, std::array<std::size_t, D> indices)
+        : index_(indices), shape_(iterable->shape()), dims_{indices.size()} {}
+
+
+template<typename T, std::size_t D>
 std::array<std::size_t, D> Index<T, D>::indices() {
     return index_;
 }
