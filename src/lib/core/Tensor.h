@@ -7,17 +7,15 @@
 #include <array>
 #include <iostream>
 
-#include "iterator/Iterable.h"
-#include "iterator/Iterator.h"
+#include "iterator/Index.h"
 
 template<typename T, size_t D>
 class View;
 
 template<typename T, size_t D>
-class Tensor {
+class Tensor : public Iterable<T, D>{
 private:
     std::array<size_t, D> shape_;
-    std::array<size_t, D> strides_{1};
     std::vector<T> data_;
 public:
     template<typename... Dims>
@@ -25,15 +23,20 @@ public:
 
     T &operator[](std::array<size_t, D> indices);
 
-    Tensor& operator=(const View<T, D>& view);
+    T &operator[](Index<T, D> &index);
 
-    std::array<size_t, D> shape() const;
-    
+    Tensor &operator=(const View<T, D> &view);
+
+    std::array<size_t, D> shape();
+
     size_t dims() const;
 
     std::vector<T> data() const;
-};
 
+    T* start();
+
+    T* end();
+};
 
 #include "Tensor.cpp"
 

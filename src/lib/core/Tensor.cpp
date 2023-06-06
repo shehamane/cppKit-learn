@@ -27,7 +27,7 @@ T &Tensor<T, D>::operator[](std::array<size_t, D> indices) {
 //}
 
 template<typename T, size_t D>
-std::array<size_t, D> Tensor<T, D>::shape() const {
+std::array<size_t, D> Tensor<T, D>::shape() {
     return shape_;
 }
 
@@ -39,4 +39,14 @@ size_t Tensor<T, D>::dims() const {
 template<typename T, size_t D>
 std::vector<T> Tensor<T, D>::data() const {
     return data_;
+}
+
+template<typename T, size_t D>
+T *Tensor<T, D>::start() {
+    return &(*data_.begin());
+}
+
+template<typename T, size_t D>
+T *Tensor<T, D>::end() {
+    return &(*data_.end());
 }
