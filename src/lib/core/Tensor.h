@@ -1,9 +1,17 @@
 #ifndef CPPKIT_LEARN_TENSOR_H
 #define CPPKIT_LEARN_TENSOR_H
 
+#pragma once
+
 #include <vector>
 #include <array>
 #include <iostream>
+
+#include "iterator/Iterable.h"
+#include "iterator/Iterator.h"
+
+template<typename T, size_t D>
+class View;
 
 template<typename T, size_t D>
 class Tensor {
@@ -15,17 +23,15 @@ public:
     template<typename... Dims>
     explicit Tensor(Dims... dims);
 
-    T &operator[](std::array<size_t, D> indices) {
-        size_t index = 0;
-        for (size_t i = 0; i < shape_.size(); i++) {
-            index = index * shape_[i] + indices[i];
-        }
-        return data_[index];
-    }
+    T &operator[](std::array<size_t, D> indices);
 
-    std::array<size_t, D> shape() const {
-        return shape_;
-    }
+    Tensor& operator=(const View<T, D>& view);
+
+    std::array<size_t, D> shape() const;
+    
+    size_t dims() const;
+
+    std::vector<T> data() const;
 };
 
 

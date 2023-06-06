@@ -1,10 +1,13 @@
 #ifndef CPPKIT_LEARN_VIEW_H
 #define CPPKIT_LEARN_VIEW_H
 
+#pragma once
+
 #include <array>
 #include <vector>
 
 #include "Tensor.h"
+#include "iterator/Iterable.h"
 
 template<typename T, size_t D>
 class View {
@@ -19,8 +22,7 @@ public:
 
     T &operator[](std::array<size_t, D> indices);
 
-    std::vector<size_t> shape() const;
-
+    std::array<size_t, D> shape() const;
 };
 
 

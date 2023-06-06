@@ -20,6 +20,6 @@ T &View<T, D>::operator[](std::array<size_t, D> indices) {
 }
 
 template<typename T, size_t D>
-std::vector<size_t> View<T, D>::shape() const {
+std::array<size_t, D> View<T, D>::shape() const {
     return shape_;
 }
