@@ -13,13 +13,14 @@ class Index {
 private:
     std::vector<std::size_t> index_;
     std::vector<std::size_t> shape_;
-    std::size_t dims_;
 public:
     explicit Index(Iterable<T> *iterable);
 
     explicit Index(Iterable<T> *iterable, std::vector<std::size_t> indices);
 
     std::vector<std::size_t> indices();
+
+    size_t dims();
 
     void next();
 
@@ -29,6 +30,7 @@ public:
 
     std::string toString();
 };
+
 
 #include "Index.cpp"
 
