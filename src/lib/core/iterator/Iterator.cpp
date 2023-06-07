@@ -2,7 +2,7 @@
 
 template<typename T>
 Iterator<T>::Iterator(Iterable<T> *iterable) :
-        iterable_(iterable), index_(Index(iterable->shape())), ptr_(iterable_->start()) {}
+        iterable_(iterable), index_(Index(iterable->shape())), ptr_(iterable_->begin()) {}
 
 
 template<typename T>

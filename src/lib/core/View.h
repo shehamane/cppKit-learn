@@ -25,7 +25,7 @@ public:
 
     size_t dims();
 
-    T* start();
+    T* begin();
 
     T* end();
 };

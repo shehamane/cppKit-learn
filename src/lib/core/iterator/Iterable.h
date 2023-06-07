@@ -10,7 +10,7 @@ class Index;
 template <typename T>
 class Iterable{
 public:
-    virtual T* start() = 0;
+    virtual T* begin() = 0;
     virtual T* end() = 0;
     virtual std::vector<std::size_t> shape() = 0;
     virtual T& operator[](Index index) = 0;

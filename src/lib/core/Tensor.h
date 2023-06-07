@@ -31,7 +31,7 @@ public:
 
     std::vector<T> data() const;
 
-    T* start();
+    T* begin();
 
     T* end();
 };

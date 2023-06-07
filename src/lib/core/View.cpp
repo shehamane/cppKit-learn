@@ -33,7 +33,7 @@ size_t View<T>::dims() {
 }
 
 template<typename T>
-T *View<T>::start() {
+T *View<T>::begin() {
     auto startIndices = starts_;
     return &(tensor_[startIndices]);
 }
