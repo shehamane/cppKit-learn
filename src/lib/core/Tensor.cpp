@@ -55,7 +55,7 @@ std::vector<T> Tensor<T>::data() const {
 
 template<typename T>
 T *Tensor<T>::begin() {
-    return &(*data_.begin());
+    return &data_[0];
 }
 
 template<typename T>
