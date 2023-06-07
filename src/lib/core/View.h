@@ -19,7 +19,7 @@ private:
 public:
     View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>>& slices);
 
-    T &operator[](Index<T> index);
+    T &operator[](Index index);
 
     std::vector<size_t> shape();
 

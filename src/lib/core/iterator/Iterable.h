@@ -5,7 +5,6 @@
 
 #include <vector>
 
-template <typename T>
 class Index;
 
 template <typename T>
@@ -14,7 +13,7 @@ public:
     virtual T* start() = 0;
     virtual T* end() = 0;
     virtual std::vector<std::size_t> shape() = 0;
-    virtual T& operator[](Index<T> index) = 0;
+    virtual T& operator[](Index index) = 0;
 };
 
 #endif //CPPKIT_LEARN_ITERABLE_H

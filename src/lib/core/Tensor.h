@@ -19,7 +19,7 @@ private:
 public:
     explicit Tensor(std::vector<std::size_t> shape);
 
-    T &operator[](Index<T> index);
+    T &operator[](Index index);
 
     T &operator[](std::vector<size_t> indices);
 

@@ -8,15 +8,14 @@
 
 #include "Iterable.h"
 
-template<typename T>
 class Index {
 private:
     std::vector<std::size_t> index_;
     std::vector<std::size_t> shape_;
 public:
-    explicit Index(Iterable<T> *iterable);
+    explicit Index(std::vector<size_t> shape);
 
-    explicit Index(Iterable<T> *iterable, std::vector<std::size_t> indices);
+    explicit Index(std::vector<size_t> shape, std::vector<std::size_t> indices);
 
     std::vector<std::size_t> indices();
 

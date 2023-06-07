@@ -14,7 +14,7 @@ View<T>::View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>>& slice
 }
 
 template<typename T>
-T &View<T>::operator[](Index<T> index) {
+T &View<T>::operator[](Index index) {
     std::vector<size_t> new_indices(index.indices().size());
     for (size_t i = 0; i < index.indices().size(); i++) {
         new_indices[i] = starts_[i] + index.indices()[i] * steps_[i];
@@ -44,7 +44,7 @@ T *View<T>::end() {
     for (int i = 0; i < dims(); ++i) {
         endIndices[i] -= 1;
     }
-    auto endIndex = Index<T>(&tensor_, endIndices);
+    auto endIndex = Index(tensor_.shape(), endIndices);
     endIndex.next();
     return &(tensor_[endIndex]);
 }

@@ -13,7 +13,7 @@ Tensor<T>::Tensor(std::vector<std::size_t> shape)
 }
 
 template<typename T>
-T &Tensor<T>::operator[](Index<T> index) {
+T &Tensor<T>::operator[](Index index) {
     size_t flatIndex = 0;
     for (size_t i = 0; i < shape_.size(); i++) {
         flatIndex = flatIndex * shape_[i] + index.indices()[i];

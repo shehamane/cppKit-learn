@@ -12,12 +12,12 @@ template<typename T>
 class Iterator {
 protected:
     Iterable<T> *iterable_;
-    Index<T> index_;
+    Index index_;
     T *ptr_;
 public:
     explicit Iterator(Iterable<T> *iterable);
 
-    Index<T> index(){
+    Index index(){
         return index_;
     }
 
