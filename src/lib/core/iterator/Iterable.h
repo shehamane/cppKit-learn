@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include <array>
+#include <vector>
 
-template <typename T, std::size_t D>
+template <typename T>
 class Index;
 
-template <typename T, std::size_t D>
+template <typename T>
 class Iterable{
 public:
     virtual T* start() = 0;
     virtual T* end() = 0;
-    virtual std::array<std::size_t, D> shape() = 0;
-    virtual T& operator[](Index<T, D> index) = 0;
+    virtual std::vector<std::size_t> shape() = 0;
+    virtual T& operator[](Index<T> index) = 0;
 };
 
 #endif //CPPKIT_LEARN_ITERABLE_H

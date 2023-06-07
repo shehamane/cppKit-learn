@@ -3,15 +3,13 @@
 
 #pragma once
 
-#include <array>
-
 #include "Iterator.h"
 #include "../View.h"
 
-template <typename T, std::size_t D>
-class ViewIterator : public Iterator<T, D> {
+template <typename T>
+class ViewIterator : public Iterator<T> {
 public:
-    explicit ViewIterator(Iterable<T, D> *iterable);
+    explicit ViewIterator(Iterable<T> *iterable);
 
     ViewIterator &operator++();
 

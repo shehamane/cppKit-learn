@@ -3,15 +3,14 @@
 
 #pragma once
 
-#include <array>
 
 #include "Iterator.h"
 #include "../Tensor.h"
 
-template <typename T, std::size_t D>
-class TensorIterator : public Iterator<T, D> {
+template <typename T>
+class TensorIterator : public Iterator<T> {
 public:
-    explicit TensorIterator(Iterable<T, D> *iterable);
+    explicit TensorIterator(Iterable<T> *iterable);
 
     TensorIterator &operator++();
 

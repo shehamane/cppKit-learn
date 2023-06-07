@@ -1,12 +1,12 @@
 #include "ViewIterator.h"
 
-template<typename T, std::size_t D>
-ViewIterator<T, D>::ViewIterator(Iterable<T, D> *iterable)
-        :Iterator<T, D>(iterable) {}
+template<typename T>
+ViewIterator<T>::ViewIterator(Iterable<T> *iterable)
+        :Iterator<T>(iterable) {}
 
-template<typename T, std::size_t D>
-ViewIterator<T, D> &ViewIterator<T, D>::operator++() {
-    Iterator<T, D>::index_.next();
-    Iterator<T, D>::ptr_ = &Iterator<T, D>::iterable_->operator[](Iterator<T, D>::index());
+template<typename T>
+ViewIterator<T> &ViewIterator<T>::operator++() {
+    Iterator<T>::index_.next();
+    Iterator<T>::ptr_ = &Iterator<T>::iterable_->operator[](Iterator<T>::index());
     return *this;
 }

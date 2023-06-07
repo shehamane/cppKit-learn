@@ -4,30 +4,28 @@
 #pragma once
 
 #include <vector>
-#include <array>
 #include <iostream>
 
 #include "iterator/Index.h"
 
-template<typename T, size_t D>
-class View;
+//template<typename T>
+//class View;
 
-template<typename T, size_t D>
-class Tensor : public Iterable<T, D>{
+template<typename T>
+class Tensor : public Iterable<T>{
 private:
-    std::array<size_t, D> shape_;
+    std::vector<size_t> shape_;
     std::vector<T> data_;
 public:
-    template<typename... Dims>
-    explicit Tensor(Dims... dims);
+    explicit Tensor(std::vector<std::size_t> shape);
 
-    T &operator[](Index<T, D> index);
+    T &operator[](Index<T> index);
 
-    T &operator[](std::array<size_t, D> indices);
+    T &operator[](std::vector<size_t> indices);
 
-    Tensor &operator=(const View<T, D> &view);
+    //Tensor &operator=(const View<T> &view);
 
-    std::array<size_t, D> shape();
+    std::vector<size_t> shape();
 
     size_t dims() const;
 

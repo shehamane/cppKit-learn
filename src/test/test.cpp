@@ -9,22 +9,22 @@
 typedef unsigned int ui;
 
 int main() {
-    Tensor<int, 2> tensor((ui) 3, (ui) 4);
+    Tensor<int> tensor({3, 4});
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 4; j++) {
             tensor[{i, j}] = i * 4 + j;
         }
     }
-    TensorIterator<int, 2> tensorIt = TensorIterator<int, 2>(&tensor);
-    while (tensorIt <= tensor.end()){
+    TensorIterator<int> tensorIt = TensorIterator<int>(&tensor);
+    while (tensorIt <= tensor.end()) {
         std::cout << tensorIt.index().toString() << " " << *tensorIt << std::endl;
         ++tensorIt;
     }
     std::cout << "==========================" << std::endl;
 
-    View<int, 2> view(tensor, {0, 1}, {3, 3}, {1, 1});
-    ViewIterator<int, 2> viewIt(&view);
-    while (viewIt <= view.end()){
+    View<int> view(tensor, {{0, 3, 1}, {1, 3, 1}});
+    ViewIterator<int> viewIt(&view);
+    while (viewIt <= view.end()) {
         std::cout << viewIt.index().toString() << " " << *viewIt << std::endl;
         ++viewIt;
     }

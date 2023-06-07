@@ -1,17 +1,19 @@
 #include "Tensor.h"
 
-template<typename T, size_t D>
-template<typename... Dims>
-Tensor<T, D>::Tensor(Dims... dims) : shape_{dims...} {
+#include <utility>
+
+template<typename T>
+Tensor<T>::Tensor(std::vector<std::size_t> shape)
+        : shape_(std::move(shape)) {
     size_t size = 1;
-    for (size_t i = 0; i < D; ++i) {
-        size *= shape_[i];
+    for (unsigned long i: shape_) {
+        size *= i;
     }
     data_.resize(size);
 }
 
-template<typename T, size_t D>
-T &Tensor<T, D>::operator[](Index<T, D> index) {
+template<typename T>
+T &Tensor<T>::operator[](Index<T> index) {
     size_t flatIndex = 0;
     for (size_t i = 0; i < shape_.size(); i++) {
         flatIndex = flatIndex * shape_[i] + index.indices()[i];
@@ -19,8 +21,8 @@ T &Tensor<T, D>::operator[](Index<T, D> index) {
     return data_[flatIndex];
 }
 
-template<typename T, size_t D>
-T &Tensor<T, D>::operator[](std::array<size_t, D> indices) {
+template<typename T>
+T &Tensor<T>::operator[](std::vector<size_t> indices) {
     size_t index = 0;
     for (size_t i = 0; i < shape_.size(); i++) {
         index = index * shape_[i] + indices[i];
@@ -36,27 +38,27 @@ T &Tensor<T, D>::operator[](std::array<size_t, D> indices) {
 //    Iterator<T> tensorIt = this->start();
 //}
 
-template<typename T, size_t D>
-std::array<size_t, D> Tensor<T, D>::shape() {
+template<typename T>
+std::vector<size_t> Tensor<T>::shape() {
     return shape_;
 }
 
-template<typename T, size_t D>
-size_t Tensor<T, D>::dims() const {
-    return D;
+template<typename T>
+size_t Tensor<T>::dims() const {
+    return shape_.size();
 }
 
-template<typename T, size_t D>
-std::vector<T> Tensor<T, D>::data() const {
+template<typename T>
+std::vector<T> Tensor<T>::data() const {
     return data_;
 }
 
-template<typename T, size_t D>
-T *Tensor<T, D>::start() {
+template<typename T>
+T *Tensor<T>::start() {
     return &(*data_.begin());
 }
 
-template<typename T, size_t D>
-T *Tensor<T, D>::end() {
-    return &data_[data().size()-1];
+template<typename T>
+T *Tensor<T>::end() {
+    return &data_[data().size() - 1];
 }

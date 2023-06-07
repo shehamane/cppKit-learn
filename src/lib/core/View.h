@@ -3,25 +3,27 @@
 
 #pragma once
 
-#include <array>
 #include <vector>
+#include <array>
 
 #include "Tensor.h"
 
-template<typename T, size_t D>
-class View : public Iterable<T, D> {
+template<typename T>
+class View : public Iterable<T> {
 private:
-    Tensor<T, D> &tensor_;
-    std::array<size_t, D> start_;
-    std::array<size_t, D> end_;
-    std::array<size_t, D> step_;
-    std::array<size_t, D> shape_;
+    Tensor<T> &tensor_;
+    std::vector<size_t> starts_;
+    std::vector<size_t> ends_;
+    std::vector<size_t> steps_;
+    std::vector<size_t> shape_;
 public:
-    View(Tensor<T, D> &tensor, std::array<size_t, D> start, std::array<size_t, D> end, std::array<size_t, D> step);
+    View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>>& slices);
 
-    T &operator[](Index<T, D> index);
+    T &operator[](Index<T> index);
 
-    std::array<size_t, D> shape();
+    std::vector<size_t> shape();
+
+    size_t dims();
 
     T* start();
 

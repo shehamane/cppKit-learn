@@ -3,23 +3,23 @@
 
 #pragma once
 
-#include <array>
+#include <vector>
 #include <string>
 
 #include "Iterable.h"
 
-template<typename T, std::size_t D>
+template<typename T>
 class Index {
 private:
-    std::array<std::size_t, D> index_;
-    std::array<std::size_t, D> shape_;
+    std::vector<std::size_t> index_;
+    std::vector<std::size_t> shape_;
     std::size_t dims_;
 public:
-    explicit Index(Iterable<T, D> *iterable);
+    explicit Index(Iterable<T> *iterable);
 
-    explicit Index(Iterable<T, D> *iterable, std::array<std::size_t, D> indices);
+    explicit Index(Iterable<T> *iterable, std::vector<std::size_t> indices);
 
-    std::array<std::size_t, D> indices();
+    std::vector<std::size_t> indices();
 
     void next();
 

@@ -2,23 +2,25 @@
 
 #include "Index.h"
 
-template<typename T, std::size_t D>
-Index<T, D>::Index(Iterable<T, D> *iterable)
-        : index_(std::array<std::size_t, D>{}), shape_(iterable->shape()), dims_(iterable->shape().size()) {}
+template<typename T>
+Index<T>::Index(Iterable<T> *iterable)
+        : shape_(iterable->shape()), dims_(iterable->shape().size()) {
+    index_ = std::vector<size_t>(dims_, 0);
+}
 
-template<typename T, std::size_t D>
-Index<T, D>::Index(Iterable<T, D> *iterable, std::array<std::size_t, D> indices)
+template<typename T>
+Index<T>::Index(Iterable<T> *iterable, std::vector<std::size_t> indices)
         : index_(indices), shape_(iterable->shape()), dims_{indices.size()} {}
 
 
-template<typename T, std::size_t D>
-std::array<std::size_t, D> Index<T, D>::indices() {
+template<typename T>
+std::vector<std::size_t> Index<T>::indices() {
     return index_;
 }
 
 
-template<typename T, std::size_t D>
-void Index<T, D>::next() {
+template<typename T>
+void Index<T>::next() {
     index_[dims_ - 1] += 1;
     for (int dim = dims_ - 1; dim >= 0; --dim) {
         if (index_[dim] == shape_[dim]) {
@@ -33,8 +35,8 @@ void Index<T, D>::next() {
 }
 
 
-template<typename T, std::size_t D>
-std::string Index<T, D>::toString() {
+template<typename T>
+std::string Index<T>::toString() {
     std::string s = "(";
     for (int i = 0; i < index_.size(); ++i) {
         s += std::to_string(index_[i]);

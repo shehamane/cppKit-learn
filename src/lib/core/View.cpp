@@ -1,42 +1,50 @@
 #include "View.h"
 
-
-template<typename T, size_t D>
-View<T, D>::View(Tensor<T, D> &tensor, std::array<size_t, D> start, std::array<size_t, D> end,
-                 std::array<size_t, D> step) :
-        tensor_(tensor), start_(start), end_(end), step_(step) {
-    for (size_t i = 0; i < shape_.size(); i++) {
-        shape_[i] = (end_[i] - start_[i] + step_[i] - 1) / step_[i];
+template<typename T>
+View<T>::View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>>& slices)
+        : tensor_(tensor) {
+    for (auto slice: slices) {
+        starts_.push_back(slice[0]);
+        ends_.push_back(slice[1]);
+        steps_.push_back(slice[2]);
+        shape_.push_back(
+                (slice[1] - slice[0] + slice[2] - 1) / slice[2]
+        );
     }
 }
 
-template<typename T, size_t D>
-T &View<T, D>::operator[](Index<T, D> index) {
-    std::array<size_t, D> new_indices;
+template<typename T>
+T &View<T>::operator[](Index<T> index) {
+    std::vector<size_t> new_indices(index.indices().size());
     for (size_t i = 0; i < index.indices().size(); i++) {
-        new_indices[i] = start_[i] + index.indices()[i] * step_[i];
+        new_indices[i] = starts_[i] + index.indices()[i] * steps_[i];
     }
     return tensor_[new_indices];
 }
 
-template<typename T, size_t D>
-std::array<size_t, D> View<T, D>::shape() {
+template<typename T>
+std::vector<size_t> View<T>::shape() {
     return shape_;
 }
 
-template<typename T, size_t D>
-T *View<T, D>::start() {
-    auto startIndices = start_;
+template<typename T>
+size_t View<T>::dims() {
+    return tensor_.dims();
+}
+
+template<typename T>
+T *View<T>::start() {
+    auto startIndices = starts_;
     return &(tensor_[startIndices]);
 }
 
-template<typename T, size_t D>
-T *View<T, D>::end() {
+template<typename T>
+T *View<T>::end() {
     auto endIndices = shape_;
-    for (int i = 0; i < D; ++i){
+    for (int i = 0; i < dims(); ++i) {
         endIndices[i] -= 1;
     }
-    auto endIndex = Index<T, D>(&tensor_, endIndices);
+    auto endIndex = Index<T>(&tensor_, endIndices);
     endIndex.next();
     return &(tensor_[endIndex]);
 }

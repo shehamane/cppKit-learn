@@ -8,16 +8,16 @@
 #include "Iterable.h"
 #include "Index.h"
 
-template<typename T, std::size_t D>
+template<typename T>
 class Iterator {
 protected:
-    Iterable<T, D> *iterable_;
-    Index<T, D> index_;
+    Iterable<T> *iterable_;
+    Index<T> index_;
     T *ptr_;
 public:
-    explicit Iterator(Iterable<T, D> *iterable);
+    explicit Iterator(Iterable<T> *iterable);
 
-    Index<T, D> index(){
+    Index<T> index(){
         return index_;
     }
 
