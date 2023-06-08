@@ -10,10 +10,12 @@
 
 class Index {
 private:
-    std::vector<std::size_t> index_;
+    std::vector<std::size_t> indices_;
     std::vector<std::size_t> shape_;
 public:
     explicit Index(std::vector<size_t> shape, std::vector<std::size_t> indices);
+
+    explicit Index(std::vector<size_t> shape, std::vector<int> indices);
 
     std::vector<std::size_t> indices();
 
@@ -30,6 +32,8 @@ public:
     bool operator==(const Index& other) const;
 
     bool operator!=(const Index& other) const;
+
+    bool isOut();
 
     static Index begin(const std::vector<size_t>& shape);
 

@@ -30,5 +30,5 @@ bool Iterator<T>::operator!=(const Iterator &other) const {
 
 template<typename T>
 T &Iterator<T>::operator*() {
-    return iterable_[index_];
+    return iterable_->operator[](index_);
 }

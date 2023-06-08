@@ -25,7 +25,7 @@ public:
 
     T &operator[](Index index);
 
-    T &operator[](std::vector<size_t> indices);
+    T &operator[](const std::vector<int>& indices);
 
     std::vector<size_t> shape() const;
 

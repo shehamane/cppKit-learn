@@ -18,6 +18,9 @@ Tensor<T>::Tensor(const View<T> &view)
 
 template<typename T>
 T &Tensor<T>::operator[](Index index) {
+    if (index.isOut()){
+        throw std::out_of_range("Index out of range");
+    }
     size_t flatIndex = 0;
     for (size_t i = 0; i < shape_.size(); i++) {
         flatIndex = flatIndex * shape_[i] + index.indices()[i];
@@ -26,12 +29,8 @@ T &Tensor<T>::operator[](Index index) {
 }
 
 template<typename T>
-T &Tensor<T>::operator[](std::vector<size_t> indices) {
-    size_t index = 0;
-    for (size_t i = 0; i < shape_.size(); i++) {
-        index = index * shape_[i] + indices[i];
-    }
-    return data_[index];
+T &Tensor<T>::operator[](const std::vector<int>& indices) {
+    return (*this)[Index(shape_, indices)];
 }
 
 template<typename T>
