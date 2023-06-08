@@ -1,9 +1,6 @@
 #include <iostream>
 
 #include "../lib/core/Tensor.h"
-#include "../lib/core/View.h"
-#include "../lib/core/iterator/TensorIterator.h"
-#include "../lib/core/iterator/ViewIterator.h"
 
 
 typedef unsigned int ui;
@@ -15,19 +12,22 @@ int main() {
             tensor[{(ui)i, (ui)j}] = i *  4 + j;
         }
     }
-    TensorIterator<int> tensorIt = TensorIterator<int>(&tensor);
-    while (tensorIt <= tensor.end()) {
-        std::cout << tensorIt.index().toString() << " " << *tensorIt << std::endl;
-        ++tensorIt;
-    }
-    std::cout << "==========================" << std::endl;
-
-    View<int> view(tensor, {{0, 3, 1}, {1, 3, 1}});
-    ViewIterator<int> viewIt(&view);
-    while (viewIt <= view.end()) {
-        std::cout << viewIt.index().toString() << " " << *viewIt << std::endl;
-        ++viewIt;
-    }
+//    tensor[{2, 2}] = 0;
+//    TensorIterator<int> tensorIt = TensorIterator<int>(&tensor);
+//    while (tensorIt <= tensor.end()) {
+//        std::cout << tensorIt.index().toString() << " " << *tensorIt << std::endl;
+//        ++tensorIt;
+//    }
+//    std::cout << "==========================" << std::endl;
+//
+//    View<int> view(tensor, {{0, 3, 1}, {1, 3, 1}});
+//    ViewIterator<int> viewIt(&view);
+//    while (viewIt <= view.end()) {
+//        std::cout << viewIt.index().toString() << " " << *viewIt << std::endl;
+//        ++viewIt;
+//    }
+//
+//    Tensor<int> tensor1= view;
 
     return 0;
 }

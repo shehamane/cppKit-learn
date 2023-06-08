@@ -1,48 +1,34 @@
 #include "Iterator.h"
 
+#include <utility>
+
 template<typename T>
-Iterator<T>::Iterator(Iterable<T> *iterable) :
-        iterable_(iterable), index_(Index(iterable->shape())), ptr_(iterable_->begin()) {}
+Iterator<T>::Iterator(Iterable<T> *iterable, Index index) :
+        iterable_(iterable), index_(std::move(index)) {}
 
 
 template<typename T>
-bool Iterator<T>::operator==(const Iterator &other) {
-    return ptr_ == other.ptr_;
+Index Iterator<T>::index() {
+    return index_;
 }
 
 template<typename T>
-bool Iterator<T>::operator!=(const Iterator &other) {
-    return ptr_ != other.ptr_;
+Iterator<T> &Iterator<T>::operator++() {
+    index_.next();
+    return *this;
 }
 
 template<typename T>
-bool Iterator<T>::operator==(const T *other) {
-    return ptr_ == other;
+bool Iterator<T>::operator==(const Iterator &other) const {
+    return index_ == other.index_;
 }
 
 template<typename T>
-bool Iterator<T>::operator!=(const T *other) {
-    return ptr_ != other;
+bool Iterator<T>::operator!=(const Iterator &other) const {
+    return index_ != other.index_;
 }
 
 template<typename T>
-bool Iterator<T>::operator<=(const T *other) {
-    return ptr_ <= other;
+T &Iterator<T>::operator*() {
+    return iterable_[index_];
 }
-
-
-template<typename T>
-T &Iterator<T>::operator*() const {
-    return *ptr_;
-}
-
-template<typename T>
-T *Iterator<T>::operator->() const {
-    return ptr_;
-}
-
-
-
-
-
-

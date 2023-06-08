@@ -13,8 +13,6 @@ private:
     std::vector<std::size_t> index_;
     std::vector<std::size_t> shape_;
 public:
-    explicit Index(std::vector<size_t> shape);
-
     explicit Index(std::vector<size_t> shape, std::vector<std::size_t> indices);
 
     std::vector<std::size_t> indices();
@@ -28,6 +26,14 @@ public:
     void fromFlat();
 
     std::string toString();
+
+    bool operator==(const Index& other) const;
+
+    bool operator!=(const Index& other) const;
+
+    static Index begin(const std::vector<size_t>& shape);
+
+    static Index end(const std::vector<size_t>& shape);
 };
 
 

@@ -21,13 +21,13 @@ public:
 
     T &operator[](Index index);
 
-    std::vector<size_t> shape();
+    std::vector<size_t> shape() const;
 
-    size_t dims();
+    size_t dims() const;
 
-    T* begin();
+    Iterator<T> begin();
 
-    T* end();
+    Iterator<T> end();
 };
 
 #include "View.cpp"

@@ -23,29 +23,22 @@ T &View<T>::operator[](Index index) {
 }
 
 template<typename T>
-std::vector<size_t> View<T>::shape() {
+std::vector<size_t> View<T>::shape() const {
     return shape_;
 }
 
 template<typename T>
-size_t View<T>::dims() {
+size_t View<T>::dims() const {
     return tensor_.dims();
 }
 
 template<typename T>
-T *View<T>::begin() {
-    auto startIndices = starts_;
-    return &(tensor_[startIndices]);
+Iterator<T> View<T>::begin() {
+    return Iterator<T>(this, Index::begin(shape_));
 }
 
 template<typename T>
-T *View<T>::end() {
-    auto endIndices = shape_;
-    for (int i = 0; i < dims(); ++i) {
-        endIndices[i] -= 1;
-    }
-    auto endIndex = Index(tensor_.shape(), endIndices);
-    endIndex.next();
-    return &(tensor_[endIndex]);
+Iterator<T> View<T>::end() {
+    return Iterator<T>(this, Index::end(shape_))
 }
 

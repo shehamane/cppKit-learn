@@ -13,30 +13,20 @@ class Iterator {
 protected:
     Iterable<T> *iterable_;
     Index index_;
-    T *ptr_;
 public:
-    explicit Iterator(Iterable<T> *iterable);
+    explicit Iterator(Iterable<T> *iterable, Index index);
 
-    Index index(){
-        return index_;
-    }
+    Index index();
 
-    virtual Iterator &operator++() = 0;
+    Iterator &operator++();
 
-    bool operator==(const Iterator &other);
+    bool operator==(const Iterator &other) const;
 
-    bool operator!=(const Iterator &other);
+    bool operator!=(const Iterator &other) const;
 
-    bool operator==(const T *other);
-
-    bool operator!=(const T *other);
-
-    bool operator<=(const T *other);
-
-    T &operator*() const;
-
-    T *operator->() const;
+    T &operator*();
 };
+
 
 #include "Iterator.cpp"
 
