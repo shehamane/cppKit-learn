@@ -24,7 +24,7 @@ public:
 
     operator T() const;
 
-    T &at(Index index);
+    T &at(Index index) override;
 
     [[nodiscard]] bool isOneElement() const;
 
@@ -34,13 +34,13 @@ public:
 
     [[nodiscard]] size_t currDim() const;
 
-    Iterator<T> begin() const;
+    Iterator<T> begin() const override;
 
-    Iterator<T> end() const;
+    Iterator<T> end() const override;
 
-    Iterator<T> begin();
+    Iterator<T> begin() override;
 
-    Iterator<T> end();
+    Iterator<T> end() override;
 };
 
 #include "View.cpp"

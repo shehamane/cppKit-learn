@@ -32,7 +32,7 @@ public:
 
     View<T> operator[](int index);
 
-    T & at(Index index);
+    T &at(Index index) override;
 
     View<T> slice(const std::vector<std::array<size_t, 3>> &slices);
 
@@ -40,17 +40,17 @@ public:
 
     [[nodiscard]] size_t dims() const;
 
-    std::vector<T> data() const;
+    [[nodiscard]] std::vector<T> data() const;
 
     [[nodiscard]] size_t size() const;
 
-    Iterator<T> begin() const;
+    Iterator<T> begin() const override;
 
-    Iterator<T> end() const;
+    Iterator<T> end() const override;
 
-    Iterator<T> begin();
+    Iterator<T> begin() override;
 
-    Iterator<T> end();
+    Iterator<T> end() override;
 };
 
 
