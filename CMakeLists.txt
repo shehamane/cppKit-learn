@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(cppKit-learn)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall")
 set(CORE src/lib/core/Tensor.h
         src/lib/core/View.h
         src/lib/core/iterator/Iterator.h

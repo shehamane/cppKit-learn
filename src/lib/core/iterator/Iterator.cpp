@@ -19,6 +19,11 @@ Iterator<T> &Iterator<T>::operator++() {
 }
 
 template<typename T>
+T &Iterator<T>::operator*() const {
+    return iterable_->operator[](index_);
+}
+
+template<typename T>
 bool Iterator<T>::operator==(const Iterator &other) const {
     return index_ == other.index_;
 }

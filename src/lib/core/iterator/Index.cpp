@@ -32,7 +32,7 @@ size_t Index::dims() {
 
 void Index::next() {
     indices_[dims() - 1] += 1;
-    for (int dim = dims() - 1; dim >= 0; --dim) {
+    for (int dim = static_cast<int>(dims()) - 1; dim >= 0; --dim) {
         if (indices_[dim] == shape_[dim]) {
             if (dim == 0) {
                 indices_ = shape_;

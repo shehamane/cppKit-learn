@@ -1,6 +1,12 @@
 #include <iostream>
+#include <optional>
 
 #include "../lib/core/Tensor.h"
+#include "../lib/core/View.h"
+
+// 0 1 2 3
+// 4 5 6 7
+// 8 9 10 11
 
 
 typedef unsigned int ui;
@@ -12,9 +18,10 @@ int main() {
             tensor[{i, j}] = i * 4 + j;
         }
     }
-    for (auto x: tensor) {
-        std::cout << x;
-    }
+    auto view = tensor[2];
+    Tensor<int> tensor1 = view;
+
+    std:: cout << tensor1[3];
 
     return 0;
 }

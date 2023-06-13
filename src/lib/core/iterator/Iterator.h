@@ -18,7 +18,9 @@ public:
 
     Index index();
 
-    Iterator &operator++();
+    Iterator<T> &operator++();
+
+    T& operator*() const;
 
     bool operator==(const Iterator &other) const;
 
@@ -26,7 +28,6 @@ public:
 
     T &operator*();
 };
-
 
 #include "Iterator.cpp"
 
