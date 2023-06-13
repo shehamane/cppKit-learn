@@ -24,6 +24,8 @@ public:
 
     Tensor(View<T> &view);
 
+    Tensor(const View<T> &view);
+
     T &operator[](Index index);
 
     T &operator[](const std::vector<int> &indices);
@@ -41,6 +43,10 @@ public:
     std::vector<T> data() const;
 
     [[nodiscard]] size_t size() const;
+
+    Iterator<T> begin() const;
+
+    Iterator<T> end() const;
 
     Iterator<T> begin();
 

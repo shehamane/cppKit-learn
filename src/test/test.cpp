@@ -18,8 +18,7 @@ int main() {
             tensor[{i, j}] = i * 4 + j;
         }
     }
-    auto view = tensor[2];
-    Tensor<int> tensor1 = view;
+    Tensor<int> tensor1 = tensor[2];
 
     std:: cout << tensor1[3];
 

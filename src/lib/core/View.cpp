@@ -78,6 +78,16 @@ size_t View<T>::currDim() const {
 }
 
 template<typename T>
+Iterator<T> View<T>::begin() const {
+    return Iterator<T>(const_cast<View<T>*>(this), Index::begin(shape_));
+}
+
+template<typename T>
+Iterator<T> View<T>::end() const {
+    return Iterator<T>(const_cast<View<T>*>(this), Index::begin(shape_));
+}
+
+template<typename T>
 Iterator<T> View<T>::begin() {
     return Iterator<T>(this, Index::begin(shape_));
 }

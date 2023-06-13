@@ -34,6 +34,10 @@ public:
 
     [[nodiscard]] size_t currDim() const;
 
+    Iterator<T> begin() const;
+
+    Iterator<T> end() const;
+
     Iterator<T> begin();
 
     Iterator<T> end();
