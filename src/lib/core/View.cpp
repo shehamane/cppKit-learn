@@ -40,11 +40,11 @@ View<T>::operator T() const {
     if (!isOneElement()) {
         throw std::exception();
     }
-    return tensor_[Index(tensor_.shape(), starts_)];
+    return tensor_.at(Index(tensor_.shape(), starts_));
 }
 
 template<typename T>
-T &View<T>::operator[](Index index) {
+T &View<T>::at(Index index) {
     std::vector<int> new_indices(index.indices().size());
     for (size_t i = 0; i < index.indices().size(); i++) {
         new_indices[i] = starts_[i] + index.indices()[i] * steps_[i];

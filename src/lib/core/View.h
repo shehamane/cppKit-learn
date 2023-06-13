@@ -18,13 +18,13 @@ private:
     std::vector<size_t> shape_;
     size_t currDim_;
 public:
-    View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slices, size_t currDim=0);
+    View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slices, size_t currDim = 0);
 
     View<T> operator[](int index);
 
     operator T() const;
 
-    T &operator[](Index index);
+    T &at(Index index);
 
     [[nodiscard]] bool isOneElement() const;
 

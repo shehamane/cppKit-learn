@@ -26,13 +26,13 @@ public:
 
     Tensor(const View<T> &view);
 
-    T &operator[](Index index);
-
     T &operator[](const std::vector<int> &indices);
 
     View<T> operator[](const std::vector<std::array<std::optional<int>, 3>> &slices);
 
     View<T> operator[](int index);
+
+    T & at(Index index);
 
     View<T> slice(const std::vector<std::array<size_t, 3>> &slices);
 

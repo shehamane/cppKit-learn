@@ -43,7 +43,7 @@ Tensor<T>::Tensor(const View<T> &view) {
 }
 
 template<typename T>
-T &Tensor<T>::operator[](Index index) {
+T &Tensor<T>::at(Index index) {
     if (index.isOut()) {
         throw std::out_of_range("Index out of range");
     }
@@ -56,9 +56,8 @@ T &Tensor<T>::operator[](Index index) {
 
 template<typename T>
 T &Tensor<T>::operator[](const std::vector<int> &indices) {
-    return (*this)[Index(shape_, indices)];
+    return (*this).at(Index(shape_, indices));
 }
-
 
 template<typename T>
 View<T> Tensor<T>::operator[](int index) {
@@ -102,7 +101,7 @@ View<T> Tensor<T>::operator[](const std::vector<std::array<std::optional<int>, 3
         if (!slices[i][1].has_value()) {
             normalSlices[i][1] = shape_[i];
         } else {
-            if (slices[i][1].value() >= shape_[i] ||
+            if (slices[i][1].value() > shape_[i] ||
                 (slices[i][1].value() < 0 && slices[i][1].value() + shape_[i] < 0)) {
                 throw std::out_of_range("Invalid slice end index for dimension " + std::to_string(i));
             }
