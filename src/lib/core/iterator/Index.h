@@ -25,7 +25,7 @@ public:
 
     void prev();
 
-    void fromFlat();
+    size_t toFlat();
 
     std::string toString();
 

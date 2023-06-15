@@ -54,6 +54,16 @@ bool Index::isOut() {
     return false;
 }
 
+size_t Index::toFlat() {
+    size_t flat = 0;
+    size_t stride = 1;
+    for (int i = shape_.size() - 1; i >= 0; --i) {
+        flat += indices_[i] * stride;
+        stride *= shape_[i];
+    }
+    return flat;
+}
+
 std::string Index::toString() {
     std::string s = "(";
     for (int i = 0; i < indices_.size(); ++i) {
