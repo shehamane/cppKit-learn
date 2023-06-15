@@ -11,6 +11,8 @@
 #include "iterator/Index.h"
 #include "iterator/Iterator.h"
 
+const auto none = std::nullopt;
+
 template<typename T>
 class View;
 
