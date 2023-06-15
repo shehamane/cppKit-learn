@@ -1,13 +1,24 @@
 cmake_minimum_required(VERSION 2.6)
 project(cppKit-learn)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall")
-set(CORE src/lib/core/Tensor.h
-        src/lib/core/View.h
-        src/lib/core/iterator/Iterator.h
-        src/lib/core/iterator/Iterable.h
-        src/lib/core/iterator/Index.h
-        )
-set(TEST src/test/test.cpp)
 
-add_executable(test ${TEST} ${CORE})
+enable_testing()
+add_subdirectory(googletest)
+include_directories(src/lib)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall")
+
+add_library(core
+        src/lib/core/Tensor.tpp
+        src/lib/core/View.tpp
+        src/lib/core/iterator/Index.cpp
+        src/lib/core/iterator/Iterator.tpp
+        )
+target_include_directories(core PUBLIC
+        src/lib/core
+        )
+add_executable(test_app
+        src/test/test.cpp
+        )
+
+target_link_libraries(test_app core)

@@ -53,7 +53,6 @@ public:
     Iterator<T> end() override;
 };
 
-
-#include "Tensor.cpp"
+#include "Tensor.tpp"
 
 #endif //CPPKIT_LEARN_TENSOR_H

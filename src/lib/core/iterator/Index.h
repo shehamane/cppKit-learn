@@ -41,6 +41,4 @@ public:
 };
 
 
-#include "Index.cpp"
-
 #endif //CPPKIT_LEARN_INDEX_H

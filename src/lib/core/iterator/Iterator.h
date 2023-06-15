@@ -29,6 +29,6 @@ public:
     T &operator*();
 };
 
-#include "Iterator.cpp"
+#include "Iterator.tpp"
 
 #endif //CPPKIT_LEARN_ITERATOR_H

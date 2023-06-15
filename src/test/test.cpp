@@ -1,8 +1,8 @@
 #include <iostream>
 #include <optional>
 
-#include "../lib/core/Tensor.h"
-#include "../lib/core/View.h"
+#include "Tensor.h"
+#include "View.h"
 
 const auto none = std::nullopt;
 
@@ -22,7 +22,7 @@ int main() {
 
     std:: cout << x + y << std::endl;
 
-    View<int> slice = tensor[{{0, 3, 2}, {0, 2, 1}}];
+    View<int> slice = tensor[{{none, 3, 2}, {0, 2, 1}}];
     for (int elem: slice){
         std::cout << elem << " ";
     }

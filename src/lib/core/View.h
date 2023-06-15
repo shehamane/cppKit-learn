@@ -43,6 +43,6 @@ public:
     Iterator<T> end() override;
 };
 
-#include "View.cpp"
+#include "View.tpp"
 
 #endif //CPPKIT_LEARN_VIEW_H

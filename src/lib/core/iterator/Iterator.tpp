@@ -1,6 +1,5 @@
 #include "Iterator.h"
 
-#include <utility>
 
 template<typename T>
 Iterator<T>::Iterator(Iterable<T> *iterable, Index index) :
