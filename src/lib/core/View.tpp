@@ -49,7 +49,7 @@ T &View<T>::at(Index index) {
     if (index.dims() != actualDims()) {
         throw std::out_of_range("Invalid index dimension");
     }
-    std::vector<int> new_indices(dims());
+    std::vector<size_t> new_indices(dims());
     for (size_t i = 0; i < currDim_; ++i) {
         new_indices[i] = starts_[i];
     }

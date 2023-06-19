@@ -6,8 +6,9 @@
 Index::Index(std::vector<size_t> shape, std::vector<std::size_t> indices)
         : indices_(std::move(indices)), shape_(std::move(shape)) {}
 
-Index::Index(std::vector<size_t> shape, std::vector<int> indices)
+Index::Index(std::vector<size_t> shape, std::initializer_list<int> indicesList)
         : shape_(shape) {
+    std::vector<int> indices(indicesList);
     indices_.resize(indices.size());
     for (int i = 0; i < indices.size(); ++i) {
         if (indices[i] < 0) {
