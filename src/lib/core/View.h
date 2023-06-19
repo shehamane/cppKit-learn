@@ -16,7 +16,9 @@ private:
     std::vector<size_t> ends_;
     std::vector<size_t> steps_;
     std::vector<size_t> shape_;
+    std::vector<size_t> actualShape_;
     size_t currDim_;
+
 public:
     View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slices, size_t currDim = 0);
 
@@ -30,7 +32,11 @@ public:
 
     [[nodiscard]] std::vector<size_t> shape() const;
 
+    [[nodiscard]] std::vector<size_t> actualShape() const;
+
     [[nodiscard]] size_t dims() const;
+
+    [[nodiscard]] size_t actualDims() const;
 
     [[nodiscard]] size_t currDim() const;
 
