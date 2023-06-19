@@ -10,8 +10,8 @@ View<T>::View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slice
         shape_.push_back(
                 (slice[1] - slice[0] + slice[2] - 1) / slice[2]
         );
-        actualShape_ = std::vector<size_t>(shape_.begin() + currDim, shape_.end());
     }
+    actualShape_ = std::vector<size_t>(shape_.begin() + currDim, shape_.end());
 }
 
 template<typename T>
