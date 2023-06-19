@@ -28,7 +28,7 @@ public:
 
     Tensor(const View<T> &view);
 
-    T &operator[](const std::vector<int> &indices);
+    T &operator[](const std::initializer_list<int> &indices);
 
     View<T> operator[](const std::vector<std::array<std::optional<int>, 3>> &slices);
 

@@ -50,15 +50,11 @@ T &Tensor<T>::at(Index index) {
     if (index.isOut()) {
         throw std::out_of_range("Index out of range");
     }
-    size_t flatIndex = 0;
-    for (size_t i = 0; i < shape_.size(); i++) {
-        flatIndex = flatIndex * shape_[i] + index.indices()[i];
-    }
-    return data_[flatIndex];
+    return data_[index.toFlat()];
 }
 
 template<typename T>
-T &Tensor<T>::operator[](const std::vector<int> &indices) {
+T &Tensor<T>::operator[](const std::initializer_list<int> &indices) {
     return (*this).at(Index(shape_, indices));
 }
 
