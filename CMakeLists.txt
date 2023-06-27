@@ -10,6 +10,7 @@ add_library(core
         src/lib/core/View.tpp
         src/lib/core/iterator/Index.cpp
         src/lib/core/iterator/Iterator.tpp
+        src/lib/core/iterator/Range.tpp
         )
 target_include_directories(core PUBLIC src/lib/core)
 add_executable(test_app src/test/main.cpp)

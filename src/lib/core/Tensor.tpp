@@ -4,8 +4,8 @@
 template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
-    for (size_t dimSize : shape_){
-        if (dimSize == 0){
+    for (size_t dimSize: shape_) {
+        if (dimSize == 0) {
             throw std::invalid_argument("zero dimension size");
         }
     }
@@ -58,6 +58,44 @@ T &Tensor<T>::operator[](const std::initializer_list<int> &indices) {
     return (*this).at(Index(shape_, indices));
 }
 
+
+template<typename T>
+View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &ranges) {
+    if (ranges.size() != dims()) {
+        throw std::out_of_range("Invalid slice dimension");
+    }
+    return View<T>(*this, ranges);
+}
+
+template<typename T>
+View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
+    if (ranges.size() > dims()) {
+        throw std::out_of_range("Invalid slice dimensions");
+    }
+    std::vector<std::array<size_t, 3>> normalRanges(dims());
+    for (int i = 0; i < ranges.size(); ++i) {
+        auto [begin, end, step] = ranges[i].decompose();
+        if (begin < 0) {
+            begin = shape_[i] - begin;
+        }
+        if (end <= 0) {
+            end = shape_[i] - end;
+        }
+        if (begin >= shape_[i] || begin < (int)-shape_[i] || end > shape_[i] || end < (int)-shape_[i]) {
+            throw std::out_of_range("Invalid range index " + std::to_string(i));
+        }
+        normalRanges[i][0] = begin;
+        normalRanges[i][1] = end;
+        normalRanges[i][2] = step;
+    }
+    for (int i = ranges.size(); i < dims(); ++i){
+        normalRanges[i][0] = 0;
+        normalRanges[i][1] = shape_[i];
+        normalRanges[i][2] = 1;
+    }
+    return this->slice(normalRanges);
+}
+
 template<typename T>
 View<T> Tensor<T>::operator[](int index) {
     size_t normalIndex;
@@ -71,55 +109,6 @@ View<T> Tensor<T>::operator[](int index) {
         slices.push_back({0, shape_[i], 1});
     }
     return View<T>(*this, slices, 1);
-}
-
-
-template<typename T>
-View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &slices) {
-    if (slices.size() != dims()) {
-        throw std::out_of_range("Invalid slice dimension");
-    }
-    return View<T>(*this, slices);
-}
-
-template<typename T>
-View<T> Tensor<T>::operator[](const std::vector<std::array<std::optional<int>, 3>> &slices) {
-    if (slices.size() > dims()) {
-        throw std::out_of_range("Invalid slice dimensions");
-    }
-    std::vector<std::array<size_t, 3>> normalSlices(slices.size());
-    for (int i = 0; i < slices.size(); ++i) {
-        if (!slices[i][0].has_value()) {
-            normalSlices[i][0] = 0;
-        } else {
-            if (slices[i][0].value() < 0 || slices[i][0].value() >= shape_[i]) {
-                throw std::out_of_range("Invalid slice begin index for dimension " + std::to_string(i));
-            }
-            normalSlices[i][0] = slices[i][0].value();
-        }
-        if (!slices[i][1].has_value()) {
-            normalSlices[i][1] = shape_[i];
-        } else {
-            if (slices[i][1].value() > shape_[i] ||
-                (slices[i][1].value() < 0 && slices[i][1].value() + shape_[i] < 0)) {
-                throw std::out_of_range("Invalid slice end index for dimension " + std::to_string(i));
-            }
-            if (slices[i][1].value() < 0) {
-                normalSlices[i][1] = shape_[i] + slices[i][1].value();
-            } else {
-                normalSlices[i][1] = slices[i][1].value();
-            }
-        }
-        if (!slices[i][2].has_value()) {
-            normalSlices[i][2] = 1;
-        } else {
-            if (slices[i][2].value() <= 0) {
-                throw std::out_of_range("Negative slice step");
-            }
-            normalSlices[i][2] = slices[i][2].value();
-        }
-    }
-    return this->slice(normalSlices);
 }
 
 template<typename T>

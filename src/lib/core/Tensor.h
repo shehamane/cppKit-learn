@@ -10,8 +10,9 @@
 
 #include "iterator/Index.h"
 #include "iterator/Iterator.h"
+#include "iterator/Range.h"
 
-const auto none = std::nullopt;
+const auto none = Range::None();
 
 template<typename T>
 class View;
@@ -21,7 +22,7 @@ class Tensor : public Iterable<T> {
 private:
     std::vector<size_t> shape_;
     std::vector<T> data_;
-public::Е
+public:
     explicit Tensor(std::vector<std::size_t> shape);
 
     Tensor(View<T> &view);
@@ -32,9 +33,9 @@ public::Е
 
     T &operator[](const std::initializer_list<int> &indices);
 
-    View<T> slice(const std::vector<std::array<size_t, 3>> &slices);
+    View<T> slice(const std::vector<std::array<size_t, 3>> &ranges);
 
-    View<T> operator[](const std::vector<std::array<std::optional<int>, 3>> &slices);
+    View<T> operator[](const std::vector<Range> ranges);
 
     View<T> operator[](int index);
 
