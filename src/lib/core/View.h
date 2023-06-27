@@ -28,6 +28,8 @@ public:
 
     T &at(Index index) override;
 
+    T &operator[](const std::initializer_list<int> &indices);
+
     [[nodiscard]] bool isOneElement() const;
 
     [[nodiscard]] std::vector<size_t> shape() const;

@@ -21,22 +21,22 @@ class Tensor : public Iterable<T> {
 private:
     std::vector<size_t> shape_;
     std::vector<T> data_;
-public:
+public::Е
     explicit Tensor(std::vector<std::size_t> shape);
 
     Tensor(View<T> &view);
 
     Tensor(const View<T> &view);
 
+    T &at(Index index) override;
+
     T &operator[](const std::initializer_list<int> &indices);
+
+    View<T> slice(const std::vector<std::array<size_t, 3>> &slices);
 
     View<T> operator[](const std::vector<std::array<std::optional<int>, 3>> &slices);
 
     View<T> operator[](int index);
-
-    T &at(Index index) override;
-
-    View<T> slice(const std::vector<std::array<size_t, 3>> &slices);
 
     [[nodiscard]] std::vector<size_t> shape() const;
 

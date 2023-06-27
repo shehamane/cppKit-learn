@@ -61,6 +61,12 @@ T &View<T>::at(Index index) {
 }
 
 template<typename T>
+T &View<T>::operator[](const std::initializer_list<int> &indices) {
+    return (*this).at(Index(shape_, indices));
+}
+
+
+template<typename T>
 bool View<T>::isOneElement() const {
     for (int i = 0; i < dims(); ++i) {
         if (shape_[i] > 1) {
