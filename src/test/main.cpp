@@ -2,6 +2,8 @@
 
 #include "tensor/initialization.cpp"
 #include "tensor/indexing.cpp"
+#include "tensor/slicing.cpp"
+#include "view/initialization.cpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

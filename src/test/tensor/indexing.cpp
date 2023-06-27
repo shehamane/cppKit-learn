@@ -1,6 +1,6 @@
 #include "Tensor.h"
 
-class TensorTest : public ::testing::Test {
+class TensorIndexingTest : public ::testing::Test {
 protected:
     Tensor<double> *tensor3d{};
     Tensor<int> *tensor1d{};
@@ -23,17 +23,17 @@ protected:
     };
 };
 
-TEST_F(TensorTest, GetByIndices_FirstElem_Returns0) {
+TEST_F(TensorIndexingTest, GetByIndices_FirstElem_Returns0) {
     ASSERT_EQ(tensor3d->operator[]({0, 0, 0}), 0);
     ASSERT_EQ(tensor1d->operator[](0), 0);
 }
 
-TEST_F(TensorTest, GetByIndicies_LastElem_Returns209) {
+TEST_F(TensorIndexingTest, GetByIndicies_LastElem_Returns209) {
     ASSERT_EQ(tensor3d->operator[]({4, 5, 6}), 209);
     ASSERT_EQ(tensor1d->operator[](99), 99);
 }
 
-TEST_F(TensorTest, SetByIndicies_Elem_Correct) {
+TEST_F(TensorIndexingTest, SetByIndicies_Elem_Correct) {
     double testValue3d = 999;
     int testValue1d = 127;
 
@@ -44,7 +44,7 @@ TEST_F(TensorTest, SetByIndicies_Elem_Correct) {
     ASSERT_EQ(tensor1d->operator[](10), testValue1d);
 }
 
-TEST_F(TensorTest, GetAndSet_ByIndex_ChangesApplied) {
+TEST_F(TensorIndexingTest, GetAndSet_ByIndex_ChangesApplied) {
     Index index(tensor3d->shape(), {2, 3, 4});
 
     auto val = tensor3d->at(index);
@@ -56,7 +56,7 @@ TEST_F(TensorTest, GetAndSet_ByIndex_ChangesApplied) {
     ASSERT_EQ((int) (*tensor3d)[2][3][4], 933);
 }
 
-TEST_F(TensorTest, IterateOverAll_WithForeach_CorrectOrder) {
+TEST_F(TensorIndexingTest, IterateOverAll_WithForeach_CorrectOrder) {
     int i = 0;
     for (auto val: *tensor1d) {
         ASSERT_EQ(val, i++);
@@ -67,7 +67,7 @@ TEST_F(TensorTest, IterateOverAll_WithForeach_CorrectOrder) {
     }
 }
 
-TEST_F(TensorTest, IterateOverAll_DoSomeChanges_ChangesApplied) {
+TEST_F(TensorIndexingTest, IterateOverAll_DoSomeChangesWithIterator_ChangesApplied) {
     auto tensor1dIt = tensor1d->begin();
     while (tensor1dIt != tensor1d->end()){
         *tensor1dIt += 1;
@@ -91,4 +91,12 @@ TEST_F(TensorTest, IterateOverAll_DoSomeChanges_ChangesApplied) {
         ASSERT_EQ(val, i*2);
         ++i;
     }
+}
+
+TEST_F(TensorIndexingTest, IterateOverAll_DoSomeChangesWithIndex_ChangesApplied) {
+    for (Index i = Index::begin(tensor3d->shape()); i != Index::end(tensor3d->shape()); i.next()){
+        tensor3d->at(i) *= 10;
+    }
+
+    ASSERT_EQ(tensor3d->operator[]({4, 5, 6}), 2090);
 }
