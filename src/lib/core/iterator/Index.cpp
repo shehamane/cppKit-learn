@@ -4,19 +4,29 @@
 #include "Index.h"
 
 Index::Index(std::vector<size_t> shape, std::vector<std::size_t> indices)
-        : indices_(std::move(indices)), shape_(std::move(shape)) {}
+        : indices_(std::move(indices)), shape_(std::move(shape)) {
+    if (indices.size() != shape.size()){
+        throw std::invalid_argument("indices and shape don't match each other");
+    }
+}
 
 Index::Index(std::vector<size_t> shape, std::initializer_list<int> indicesList)
         : shape_(shape) {
+    if (indicesList.size() != shape.size()){
+        throw std::invalid_argument("indices and shape don't match each other");
+    }
     std::vector<int> indices(indicesList);
     indices_.resize(indices.size());
     for (int i = 0; i < indices.size(); ++i) {
         if (indices[i] < 0) {
             if (indices[i] + static_cast<int>(shape[i]) < 0) {
-                throw std::out_of_range("Negative index out of range");
+                throw std::out_of_range("negative index out of range");
             }
             indices_[i] = shape[i] + indices[i];
         } else {
+            if (indices[i] >= shape[i]){
+                throw std::out_of_range("index out of range");
+            }
             indices_[i] = indices[i];
         }
     }

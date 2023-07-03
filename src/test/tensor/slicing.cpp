@@ -32,6 +32,9 @@ TEST_F(TensorSlicingTest, SliceByExplicitRanges_CorrectShape) {
 
     ASSERT_EQ(dimsExpected, slice.dims());
     ASSERT_EQ(shapeExpected, slice.shape());
+    ASSERT_EQ(slice.operator[]({0, 0, 0, 0, 0}), 30705);
+    ASSERT_EQ(slice.operator[]({0, 0, 0, 1, 0}), 30735);
+    ASSERT_THROW(slice.operator[]({0, 0, 0, 0, 1}), std::out_of_range);
 }
 
 TEST_F(TensorSlicingTest, SliceOneProjection_CorrectShape){
@@ -42,6 +45,9 @@ TEST_F(TensorSlicingTest, SliceOneProjection_CorrectShape){
 
     ASSERT_EQ(dimsExpected, subTensor.actualDims());
     ASSERT_EQ(shapeExpected, subTensor.actualShape());
+    ASSERT_EQ(subTensor.operator[]({0, 0, 0, 0}), 20000);
+    ASSERT_EQ(subTensor.operator[]({0, 0, 0, 1}), 20001);
+    ASSERT_THROW(subTensor.operator[]({0, 0, 0, 0, 0}), std::invalid_argument);
 }
 
 
@@ -53,6 +59,9 @@ TEST_F(TensorSlicingTest, SliceMultiProjections_CorrectShape){
 
     ASSERT_EQ(dimsExpected, subTensor.actualDims());
     ASSERT_EQ(shapeExpected, subTensor.actualShape());
+    ASSERT_EQ(subTensor.operator[]({0, 0}), 23000);
+    ASSERT_EQ(subTensor.operator[]({1, 1}), 23011);
+    ASSERT_THROW(subTensor.operator[]({0, 0, 1}), std::invalid_argument);
 }
 
 
@@ -62,6 +71,8 @@ TEST_F(TensorSlicingTest, SliceWithRanges_CorrectShape){
 
     auto view = (*tensor5d)[{{3}, {4, 7}, {2, 8, 3}, {none, 5}}];
 
+    ASSERT_EQ(view.operator[]({0, 0, 0, 0, 0}), 34200);
+    ASSERT_THROW(view.operator[]({0, 0, 0, 0}), std::invalid_argument);
     ASSERT_EQ(dimsExpected, view.actualDims());
     ASSERT_EQ(shapeExpected, view.actualShape());
 }
