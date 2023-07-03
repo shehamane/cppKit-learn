@@ -3,6 +3,18 @@
 template<typename T>
 View<T>::View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slices, size_t currDim)
         : tensor_(tensor), currDim_(currDim) {
+    if (slices.size() != tensor.dims()){
+        throw std::invalid_argument("ranges dimension is not equal to the original tensor dimension");
+    }
+    for (int i = 0; i < tensor.dims(); ++i){
+        auto slice = slices[i];
+        if (slice[0] >= tensor.shape()[i] || slice[1] > tensor.shape()[i]){
+            throw std::out_of_range("range index out of range");
+        }
+        if (slice[2] == 0){
+            throw std::invalid_argument("zero step in range");
+        }
+    }
     for (auto slice: slices) {
         starts_.push_back(slice[0]);
         ends_.push_back(slice[1]);
@@ -39,7 +51,7 @@ View<T> View<T>::operator[](int index) {
 template<typename T>
 View<T>::operator T() const {
     if (!isOneElement()) {
-        throw std::exception();
+        throw std::out_of_range("attempt to cast a non-1-element representation to an element type");
     }
     return tensor_.at(Index(tensor_.shape(), starts_));
 }
@@ -47,7 +59,7 @@ View<T>::operator T() const {
 template<typename T>
 T &View<T>::at(Index index) {
     if (index.dims() != actualDims()) {
-        throw std::out_of_range("Invalid index dimension");
+        throw std::invalid_argument("Invalid index dimension");
     }
     std::vector<size_t> new_indices(dims());
     for (size_t i = 0; i < currDim_; ++i) {
@@ -62,7 +74,7 @@ T &View<T>::at(Index index) {
 
 template<typename T>
 T &View<T>::operator[](const std::initializer_list<int> &indices) {
-    return (*this).at(Index(shape_, indices));
+    return (*this).at(Index(actualShape_, indices));
 }
 
 

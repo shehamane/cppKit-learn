@@ -39,7 +39,7 @@ public:
 
     View<T> operator[](int index);
 
-    [[nodiscard]] std::vector<size_t> shape() const;
+    [[nodiscard]] std::vector<size_t> shape() const override;
 
     [[nodiscard]] size_t dims() const;
 

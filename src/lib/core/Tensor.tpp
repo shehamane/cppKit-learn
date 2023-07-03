@@ -48,7 +48,7 @@ Tensor<T>::Tensor(const View<T> &view) {
 template<typename T>
 T &Tensor<T>::at(Index index) {
     if (index.isOut()) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("index out of range");
     }
     return data_[index.toFlat()];
 }
@@ -62,7 +62,7 @@ T &Tensor<T>::operator[](const std::initializer_list<int> &indices) {
 template<typename T>
 View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &ranges) {
     if (ranges.size() != dims()) {
-        throw std::out_of_range("Invalid slice dimension");
+        throw std::invalid_argument("ranges dimension is not equal to the original tensor dimension");
     }
     return View<T>(*this, ranges);
 }
@@ -70,7 +70,7 @@ View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &ranges) {
 template<typename T>
 View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
     if (ranges.size() > dims()) {
-        throw std::out_of_range("Invalid slice dimensions");
+        throw std::invalid_argument("ranges dimension is greater then the original tensor dimension");
     }
     std::vector<std::array<size_t, 3>> normalRanges(dims());
     for (int i = 0; i < ranges.size(); ++i) {
@@ -82,7 +82,7 @@ View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
             end = shape_[i] - end;
         }
         if (begin >= shape_[i] || begin < (int)-shape_[i] || end > shape_[i] || end < (int)-shape_[i]) {
-            throw std::out_of_range("Invalid range index " + std::to_string(i));
+            throw std::out_of_range("invalid range index");
         }
         normalRanges[i][0] = begin;
         normalRanges[i][1] = end;
@@ -98,6 +98,10 @@ View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
 
 template<typename T>
 View<T> Tensor<T>::operator[](int index) {
+    if (index >= shape_[0] || index < (int) -shape_[0]){
+        throw std::out_of_range("index out of range");
+    }
+
     size_t normalIndex;
     if (index < 0) {
         normalIndex = shape_[0] + index;
