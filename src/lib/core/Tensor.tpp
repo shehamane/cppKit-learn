@@ -5,8 +5,8 @@ template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
     for (size_t dimSize: shape_) {
-        if (dimSize == 0) {
-            throw std::invalid_argument("zero dimension size");
+        if (dimSize < 0) {
+            throw std::invalid_argument("Invalid dimension size");
         }
     }
     data_.resize(size());
