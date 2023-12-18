@@ -1,11 +1,13 @@
 #include "Tensor.h"
 
-
 template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
+    if (shape_.empty()){
+        throw std::invalid_argument("Invalid dimension");
+    }
     for (size_t dimSize: shape_) {
-        if (dimSize < 0) {
+        if (dimSize <= 0) {
             throw std::invalid_argument("Invalid dimension size");
         }
     }
