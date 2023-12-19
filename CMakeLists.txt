@@ -12,11 +12,17 @@ add_library(core
         src/lib/core/iterator/Iterator.tpp
         src/lib/core/iterator/Range.tpp
         )
+
+add_library(math
+        src/lib/math/broadcasting.cpp
+)
 target_include_directories(core PUBLIC src/lib/core)
+target_include_directories(math PUBLIC src/lib/math)
+
 
 add_executable(test_app src/test/main.cpp)
 target_include_directories(test_app PUBLIC src/test ./)
 target_link_libraries(test_app core gtest_main gmock_main)
 
 add_executable(playground_app src/test/playground.cpp)
-target_link_libraries(playground_app core)
+target_link_libraries(playground_app core math)

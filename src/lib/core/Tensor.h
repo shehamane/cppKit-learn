@@ -23,7 +23,7 @@ class View;
  * @tparam T тип данных, которые хранит тензор
  */
 template<typename T>
-class Tensor : public Iterable<T> {
+class Tensor : public NDArray<T> {
 private:
     std::vector<size_t> shape_;
     std::vector<T> data_;
@@ -40,6 +40,9 @@ public:
      * </pre>
      */
     explicit Tensor(std::vector<std::size_t> shape);
+
+
+    Tensor(std::vector<std::size_t> shape, std::vector<T> data);
 
     /**
      * Создать тензор, аналогичный представлению. Тензор будет обладать той же формой, а данные будут скопированы.

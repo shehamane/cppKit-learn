@@ -3,7 +3,7 @@
 template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
-    if (shape_.empty()){
+    if (shape_.empty()) {
         throw std::invalid_argument("Invalid dimension");
     }
     for (size_t dimSize: shape_) {
@@ -14,6 +14,11 @@ Tensor<T>::Tensor(std::vector<std::size_t> shape)
     data_.resize(size());
 }
 
+template<typename T>
+Tensor<T>::Tensor(std::vector<std::size_t> shape, std::vector<T> data)
+        : Tensor(shape) {
+    data_ = data;
+}
 
 template<typename T>
 Tensor<T>::Tensor(View<T> &view) {
@@ -83,14 +88,14 @@ View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
         if (end <= 0) {
             end = shape_[i] - end;
         }
-        if (begin >= shape_[i] || begin < (int)-shape_[i] || end > shape_[i] || end < (int)-shape_[i]) {
+        if (begin >= shape_[i] || begin < (int) -shape_[i] || end > shape_[i] || end < (int) -shape_[i]) {
             throw std::out_of_range("invalid range index");
         }
         normalRanges[i][0] = begin;
         normalRanges[i][1] = end;
         normalRanges[i][2] = step;
     }
-    for (int i = ranges.size(); i < dims(); ++i){
+    for (int i = ranges.size(); i < dims(); ++i) {
         normalRanges[i][0] = 0;
         normalRanges[i][1] = shape_[i];
         normalRanges[i][2] = 1;
@@ -100,7 +105,7 @@ View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
 
 template<typename T>
 View<T> Tensor<T>::operator[](int index) {
-    if (index >= shape_[0] || index < (int) -shape_[0]){
+    if (index >= shape_[0] || index < (int) -shape_[0]) {
         throw std::out_of_range("index out of range");
     }
 

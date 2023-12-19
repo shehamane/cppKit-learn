@@ -9,7 +9,7 @@
 #include "Tensor.h"
 
 template<typename T>
-class View : public Iterable<T> {
+class View : public NDArray<T> {
 private:
     Tensor<T> &tensor_;
     std::vector<size_t> starts_;

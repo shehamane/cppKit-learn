@@ -5,16 +5,16 @@
 
 #include <array>
 
-#include "Iterable.h"
+#include "NDArray.h"
 #include "Index.h"
 
 template<typename T>
 class Iterator {
 protected:
-    Iterable<T> *iterable_;
+    NDArray<T> *iterable_;
     Index index_;
 public:
-    explicit Iterator(Iterable<T> *iterable, Index index);
+    explicit Iterator(NDArray<T> *iterable, Index index);
 
     Index index();
 

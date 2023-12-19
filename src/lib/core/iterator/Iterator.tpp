@@ -2,7 +2,7 @@
 
 
 template<typename T>
-Iterator<T>::Iterator(Iterable<T> *iterable, Index index) :
+Iterator<T>::Iterator(NDArray<T> *iterable, Index index) :
         iterable_(iterable), index_(std::move(index)) {}
 
 

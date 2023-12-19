@@ -12,7 +12,7 @@ template<typename T>
 class Iterator;
 
 template<typename T>
-class Iterable {
+class NDArray {
 public:
     virtual Iterator<T> begin() = 0;
 
