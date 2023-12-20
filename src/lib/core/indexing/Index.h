@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include "NDArray.h"
+#include "../NDArray.h"
 
 class Index {
 private:

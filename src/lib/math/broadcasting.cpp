@@ -1,8 +1,10 @@
-#include "vector"
+#pragma once
 
-#include "../core/Tensor.h"
+#include <vector>
 
-#define Shape std::vector<size_t>
+#include "Tensor.h"
+
+#define Shape std::vector<std::size_t>
 
 bool isBroadcastableShapes(Shape leftShape, Shape rightShape) {
     int n = std::min(leftShape.size(), rightShape.size());
@@ -38,7 +40,7 @@ Shape broadcastShapes(Shape leftShape, Shape rightShape) {
 }
 
 template<typename T>
-Tensor<T> enhanceImplicitDims(Tensor<T> t, size_t dims) {
+Tensor<T> enhanceImplicitDims(const Tensor<T> &t, const size_t dims) {
     Shape enhancedShape(dims, 1);
     for (int i = 0; i < t.dims(); ++i) {
         enhancedShape[dims - t.dims() + i] = t.shape()[i];
@@ -48,30 +50,35 @@ Tensor<T> enhanceImplicitDims(Tensor<T> t, size_t dims) {
 }
 
 template<typename T>
-Tensor<T> broadcastOperator(Tensor<T> t1, Tensor<T> t2, T (*op)(T, T)) {
+Tensor<T> broadcastOperator(const Tensor<T> &t1, const Tensor<T> &t2, T (*op)(T, T)) {
     Tensor<T> res(broadcastShapes(t1.shape(), t2.shape()));
 
+
+    Tensor<T> tOrig({1}), tEnhanced({1});
     if (t1.dims() > t2.dims()) {
-        t2 = enhanceImplicitDims(t2, t1.dims());
+        tOrig = t1;
+        tEnhanced = enhanceImplicitDims(t2, t1.dims());
     } else if (t2.dims() > t1.dims()) {
-        t1 = enhanceImplicitDims(t1, t2.dims());
+        tOrig = t2;
+        tEnhanced = enhanceImplicitDims(t1, t2.dims());
     }
 
     Index resIndex = Index::begin(res.shape());
-    std::vector<std::size_t> t1Indices(res.dims()), t2Indices(res.dims());
+    std::vector<std::size_t> tOrigIndices(res.dims()), tEnhancedIndices(res.dims());
 
     while (!resIndex.isOut()) {
-        t1Indices = t2Indices = resIndex.indices();
+        tOrigIndices = tEnhancedIndices = resIndex.indices();
 
         for (int i = 0; i < res.dims(); ++i) {
-            if (t1.shape()[i] == 1) {
-                t1Indices[i] = 0;
-            } else if (t2.shape()[i] == 1) {
-                t2Indices[i] = 0;
+            if (tOrig.shape()[i] == 1) {
+                tOrigIndices[i] = 0;
+            } else if (tEnhanced.shape()[i] == 1) {
+                tEnhancedIndices[i] = 0;
             }
         }
 
-        res.at(resIndex) = op(t1.at(Index(t1.shape(), t1Indices)), t2.at(Index(t2.shape(), t2Indices)));
+        res.at(resIndex) = op(tOrig.at(Index(tOrig.shape(), tOrigIndices)),
+                              tEnhanced.at(Index(tEnhanced.shape(), tEnhancedIndices)));
         resIndex.next();
     }
 

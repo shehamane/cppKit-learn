@@ -8,15 +8,21 @@ add_subdirectory(googletest)
 add_library(core
         src/lib/core/Tensor.tpp
         src/lib/core/View.tpp
-        src/lib/core/iterator/Index.cpp
-        src/lib/core/iterator/Iterator.tpp
-        src/lib/core/iterator/Range.tpp
+        src/lib/core/indexing/Index.cpp
+        src/lib/core/indexing/Iterator.tpp
+        src/lib/core/indexing/Range.tpp
         )
 
 add_library(math
         src/lib/math/broadcasting.cpp
+        src/lib/math/operators.cpp
+        src/lib/math/operations.cpp
 )
 target_include_directories(core PUBLIC src/lib/core)
+target_include_directories(core PUBLIC src/lib/core/indexing)
+target_include_directories(core PUBLIC src/lib/math)
+
+target_include_directories(math PUBLIC src/lib/core)
 target_include_directories(math PUBLIC src/lib/math)
 
 

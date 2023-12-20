@@ -1,5 +1,7 @@
 #include "Tensor.h"
 
+#include "operations.cpp"
+
 template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
@@ -50,6 +52,12 @@ Tensor<T>::Tensor(const View<T> &view) {
         ++tensorIt;
         ++viewIt;
     }
+}
+
+template<typename T>
+Tensor<T>::Tensor(const Tensor<T> &other) {
+    shape_ = other.shape_;
+    data_ = other.data_;
 }
 
 template<typename T>
@@ -164,4 +172,11 @@ Iterator<T> Tensor<T>::begin() {
 template<typename T>
 Iterator<T> Tensor<T>::end() {
     return Iterator<T>(this, Index::end(shape_));
+}
+
+// Binary operations
+
+template<typename T>
+Tensor<T> Tensor<T>::operator*(const Tensor<T> &other) const {
+    return multiply(*this, other);
 }

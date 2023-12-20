@@ -8,11 +8,11 @@
 #include <iostream>
 #include <optional>
 
-#include "iterator/Index.h"
-#include "iterator/Iterator.h"
-#include "iterator/Range.h"
+#include "indexing/Index.h"
+#include "indexing/Iterator.h"
+#include "indexing/Range.h"
 
-const auto none = Range::None();
+#define none Range::None()
 
 template<typename T>
 class View;
@@ -58,6 +58,8 @@ public:
      * @param view
      */
     Tensor(const View<T> &view);
+
+    Tensor(const Tensor<T> &other);
 
     /**
      * Получить элемент тензора по многомерному индексу.
@@ -165,6 +167,19 @@ public:
      * @return Объект класса Iterator, указывающий на начало тензора.
      */
     Iterator<T> end() override;
+
+    // Binary operations
+    Tensor<T> operator+(const Tensor<T> &other) const;
+
+    Tensor<T> operator-(const Tensor<T> &other) const;
+
+    Tensor<T> operator*(const Tensor<T> &other) const;
+
+    Tensor<T> operator/(const Tensor<T> &other) const;
+
+    Tensor<T> operator%(const Tensor<T> &other) const;
+
+    Tensor<T> pow(const Tensor<T> &other) const;
 };
 
 #include "Tensor.tpp"

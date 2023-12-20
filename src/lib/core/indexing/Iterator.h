@@ -5,7 +5,7 @@
 
 #include <array>
 
-#include "NDArray.h"
+#include "../NDArray.h"
 #include "Index.h"
 
 template<typename T>
