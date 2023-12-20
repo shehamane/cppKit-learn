@@ -24,7 +24,9 @@ public:
 
     [[nodiscard]] virtual std::vector<std::size_t> shape() const = 0;
 
-    virtual T &at(Index index) = 0;
+    virtual T at(Index index) const = 0;
+
+    virtual T &operator[](Index index) = 0;
 };
 
 #endif //CPPKIT_LEARN_ITERABLE_H

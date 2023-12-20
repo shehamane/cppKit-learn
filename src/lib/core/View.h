@@ -26,7 +26,9 @@ public:
 
     operator T() const;
 
-    T &at(Index index) override;
+    T at(Index index) const override;
+
+    T &operator[](Index index);
 
     T &operator[](const std::initializer_list<int> &indices);
 

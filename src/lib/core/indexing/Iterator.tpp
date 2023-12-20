@@ -19,7 +19,7 @@ Iterator<T> &Iterator<T>::operator++() {
 
 template<typename T>
 T &Iterator<T>::operator*() const {
-    return iterable_->at(index_);
+    return iterable_->operator[](index_);
 }
 
 template<typename T>
@@ -34,5 +34,5 @@ bool Iterator<T>::operator!=(const Iterator &other) const {
 
 template<typename T>
 T &Iterator<T>::operator*() {
-    return iterable_->at(index_);
+    return iterable_->operator[](index_);
 }

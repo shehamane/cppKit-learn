@@ -2,6 +2,10 @@
 
 #include "operations.cpp"
 
+namespace UnaryOperation {};
+
+//***********************************************************
+// Constructors
 template<typename T>
 Tensor<T>::Tensor(std::vector<std::size_t> shape)
         : shape_(std::move(shape)) {
@@ -60,8 +64,11 @@ Tensor<T>::Tensor(const Tensor<T> &other) {
     data_ = other.data_;
 }
 
+
+//***********************************************************
+// Indexing
 template<typename T>
-T &Tensor<T>::at(Index index) {
+T &Tensor<T>::operator[](Index index) {
     if (index.isOut()) {
         throw std::out_of_range("index out of range");
     }
@@ -70,10 +77,21 @@ T &Tensor<T>::at(Index index) {
 
 template<typename T>
 T &Tensor<T>::operator[](const std::initializer_list<int> &indices) {
-    return (*this).at(Index(shape_, indices));
+    return (*this).operator[](Index(shape_, indices));
 }
 
 
+template<typename T>
+T Tensor<T>::at(Index index) const {
+    if (index.isOut()) {
+        throw std::out_of_range("index out of range");
+    }
+    return data_[index.toFlat()];
+}
+
+
+//***********************************************************
+// Slicing
 template<typename T>
 View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &ranges) {
     if (ranges.size() != dims()) {
@@ -130,6 +148,9 @@ View<T> Tensor<T>::operator[](int index) {
     return View<T>(*this, slices, 1);
 }
 
+
+//***********************************************************
+// Getters
 template<typename T>
 std::vector<size_t> Tensor<T>::shape() const {
     return shape_;
@@ -174,8 +195,17 @@ Iterator<T> Tensor<T>::end() {
     return Iterator<T>(this, Index::end(shape_));
 }
 
-// Binary operations
 
+//***********************************************************
+// Unary operations
+template<typename T>
+Tensor<T> Tensor<T>::transpose() {
+    return transposeOperation(*this);
+}
+
+
+//***********************************************************
+// Binary operations
 template<typename T>
 Tensor<T> Tensor<T>::operator+(const Tensor<T> &other) const {
     return add(*this, other);
@@ -206,6 +236,9 @@ Tensor<T> Tensor<T>::pow(const Tensor<T> &other) const {
     return power(*this, other);
 }
 
+
+//***********************************************************
+// Binary operations with numbers
 template<typename T>
 template<
         typename V,
@@ -259,3 +292,7 @@ template<
 Tensor<T> Tensor<T>::pow(const V &other) const {
     return this->pow(Tensor<T>({1}, {other}));
 }
+
+
+//***********************************************************
+// Format

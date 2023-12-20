@@ -7,6 +7,7 @@
 #include <array>
 #include <iostream>
 #include <optional>
+#include <string>
 
 #include "indexing/Index.h"
 #include "indexing/Iterator.h"
@@ -73,7 +74,10 @@ public:
      * @throw std::out_of_range Выбрасывается, если индекс выходит за границы тензора.
      * @return Полученный элемент.
      */
-    T &at(Index index) override;
+    T at(Index index) const override;
+
+    T &operator[](Index index);
+
 
     /**
      * Получить элемент тензора по набору одномерных индексов.
@@ -185,6 +189,11 @@ public:
 
 
     //***********************************************************
+    // Unary operations
+    Tensor<T> transpose();
+
+
+    //***********************************************************
     // Binary operations
     Tensor<T> operator+(const Tensor<T> &other) const;
 
@@ -198,8 +207,10 @@ public:
 
     Tensor<T> pow(const Tensor<T> &other) const;
 
-    // Binary operations with values
 
+
+    //***********************************************************
+    // Binary operations with numbers
     template<
             typename V,
             typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
@@ -235,6 +246,12 @@ public:
             typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
     >
     Tensor<T> pow(const V &other) const;
+
+
+
+    //***********************************************************
+    // Format
+    std::string toString();
 };
 
 #include "Tensor.tpp"

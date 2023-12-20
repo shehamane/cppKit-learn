@@ -3,15 +3,15 @@
 template<typename T>
 View<T>::View(Tensor<T> &tensor, const std::vector<std::array<size_t, 3>> &slices, size_t currDim)
         : tensor_(tensor), currDim_(currDim) {
-    if (slices.size() != tensor.dims()){
+    if (slices.size() != tensor.dims()) {
         throw std::invalid_argument("ranges dimension is not equal to the original tensor dimension");
     }
-    for (int i = 0; i < tensor.dims(); ++i){
+    for (int i = 0; i < tensor.dims(); ++i) {
         auto slice = slices[i];
-        if (slice[0] >= tensor.shape()[i] || slice[1] > tensor.shape()[i]){
+        if (slice[0] >= tensor.shape()[i] || slice[1] > tensor.shape()[i]) {
             throw std::out_of_range("range index out of range");
         }
-        if (slice[2] == 0){
+        if (slice[2] == 0) {
             throw std::invalid_argument("zero step in range");
         }
     }
@@ -57,7 +57,7 @@ View<T>::operator T() const {
 }
 
 template<typename T>
-T &View<T>::at(Index index) {
+T &View<T>::operator[](Index index) {
     if (index.dims() != actualDims()) {
         throw std::invalid_argument("Invalid index dimension");
     }
@@ -69,12 +69,28 @@ T &View<T>::at(Index index) {
         new_indices[i] = starts_[i] + index.indices()[i - currDim_] * steps_[i];
     }
 
-    return tensor_.at(Index(tensor_.shape(), new_indices));
+    return tensor_[(Index(tensor_.shape(), new_indices))];
 }
 
 template<typename T>
 T &View<T>::operator[](const std::initializer_list<int> &indices) {
-    return (*this).at(Index(actualShape_, indices));
+    return (*this)[(Index(actualShape_, indices))];
+}
+
+template<typename T>
+T View<T>::at(Index index) const {
+    if (index.dims() != actualDims()) {
+        throw std::invalid_argument("Invalid index dimension");
+    }
+    std::vector<size_t> new_indices(dims());
+    for (size_t i = 0; i < currDim_; ++i) {
+        new_indices[i] = starts_[i];
+    }
+    for (size_t i = currDim_; i < dims(); ++i) {
+        new_indices[i] = starts_[i] + index.indices()[i - currDim_] * steps_[i];
+    }
+
+    return tensor_[(Index(tensor_.shape(), new_indices))];
 }
 
 
