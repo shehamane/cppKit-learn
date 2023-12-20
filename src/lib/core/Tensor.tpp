@@ -177,6 +177,31 @@ Iterator<T> Tensor<T>::end() {
 // Binary operations
 
 template<typename T>
+Tensor<T> Tensor<T>::operator+(const Tensor<T> &other) const {
+    return add(*this, other);
+}
+
+template<typename T>
+Tensor<T> Tensor<T>::operator-(const Tensor<T> &other) const {
+    return subtract(*this, other);
+}
+
+template<typename T>
 Tensor<T> Tensor<T>::operator*(const Tensor<T> &other) const {
     return multiply(*this, other);
+}
+
+template<typename T>
+Tensor<T> Tensor<T>::operator/(const Tensor<T> &other) const {
+    return divide(*this, other);
+}
+
+template<typename T>
+Tensor<T> Tensor<T>::operator%(const Tensor<T> &other) const {
+    return rest(*this, other);
+}
+
+template<typename T>
+Tensor<T> Tensor<T>::pow(const Tensor<T> &other) const {
+    return power(*this, other);
 }
