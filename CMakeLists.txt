@@ -31,4 +31,5 @@ target_include_directories(test_app PUBLIC src/test ./)
 target_link_libraries(test_app core gtest_main gmock_main)
 
 add_executable(playground_app src/test/playground.cpp)
-target_link_libraries(playground_app core math)
+target_link_libraries(core math)
+target_link_libraries(playground_app core)

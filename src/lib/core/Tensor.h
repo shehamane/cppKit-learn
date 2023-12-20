@@ -28,6 +28,8 @@ private:
     std::vector<size_t> shape_;
     std::vector<T> data_;
 public:
+    //***********************************************************
+    // Constructors
     /**
      * Создать пустой тензор
      *
@@ -61,6 +63,10 @@ public:
 
     Tensor(const Tensor<T> &other);
 
+
+
+    //***********************************************************
+    // Indexing
     /**
      * Получить элемент тензора по многомерному индексу.
      * @param index объект класса Index.
@@ -77,6 +83,10 @@ public:
      */
     T &operator[](const std::initializer_list<int> &indices);
 
+
+
+    //***********************************************************
+    // Slicing
     /**
      * Взять срез тензора.
      *
@@ -116,6 +126,10 @@ public:
      */
     View<T> operator[](int index);
 
+
+
+    //***********************************************************
+    // Getters
     /**
      * Получить форму тензора.
      *
@@ -168,6 +182,9 @@ public:
      */
     Iterator<T> end() override;
 
+
+
+    //***********************************************************
     // Binary operations
     Tensor<T> operator+(const Tensor<T> &other) const;
 
