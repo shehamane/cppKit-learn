@@ -180,6 +180,44 @@ public:
     Tensor<T> operator%(const Tensor<T> &other) const;
 
     Tensor<T> pow(const Tensor<T> &other) const;
+
+    // Binary operations with values
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> operator+(const V &other) const;
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> operator-(const V &other) const;
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> operator*(const V &other) const;
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> operator/(const V &other) const;
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> operator%(const V &other) const;
+
+    template<
+            typename V,
+            typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
+    >
+    Tensor<T> pow(const V &other) const;
 };
 
 #include "Tensor.tpp"

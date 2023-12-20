@@ -205,3 +205,57 @@ template<typename T>
 Tensor<T> Tensor<T>::pow(const Tensor<T> &other) const {
     return power(*this, other);
 }
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::operator+(const V &other) const {
+    return *this + Tensor<T>({1}, {other});
+}
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::operator-(const V &other) const {
+    return *this - Tensor<T>({1}, {other});
+}
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::operator*(const V &other) const {
+    return *this * Tensor<T>({1}, {other});
+}
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::operator/(const V &other) const {
+    return *this + Tensor<T>({1}, {other});
+}
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::operator%(const V &other) const {
+    return *this % Tensor<T>({1}, {other});
+}
+
+template<typename T>
+template<
+        typename V,
+        typename
+>
+Tensor<T> Tensor<T>::pow(const V &other) const {
+    return this->pow(Tensor<T>({1}, {other}));
+}

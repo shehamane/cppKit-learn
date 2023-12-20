@@ -31,6 +31,6 @@ Tensor<T> rest(const Tensor<T> &t1, const Tensor<T> &t2) {
 };
 
 template<typename T>
-Tensor<T> power(Tensor<T> &t1, Tensor<T> &t2) {
+Tensor<T> power(const Tensor<T> &t1, const Tensor<T> &t2) {
     return broadcastOperator(t1, t2, powOp);
 };
