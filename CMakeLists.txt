@@ -25,11 +25,11 @@ target_include_directories(core PUBLIC src/lib/math)
 target_include_directories(math PUBLIC src/lib/core)
 target_include_directories(math PUBLIC src/lib/math)
 
+target_link_libraries(core PRIVATE math)
 
 add_executable(test_app src/test/main.cpp)
 target_include_directories(test_app PUBLIC src/test ./)
-target_link_libraries(test_app core gtest_main gmock_main)
+target_link_libraries(test_app PUBLIC core gtest_main gmock_main)
 
 add_executable(playground_app src/test/playground.cpp)
-target_link_libraries(core math)
-target_link_libraries(playground_app core)
+target_link_libraries(playground_app PUBLIC core)
