@@ -203,6 +203,11 @@ Tensor<T> Tensor<T>::transpose() {
     return transposeOperation(*this);
 }
 
+template<typename T>
+Tensor<T> Tensor<T>::reshape(std::vector<size_t> newShape) {
+    return reshapeOperation(*this, newShape);
+}
+
 
 //***********************************************************
 // Binary operations

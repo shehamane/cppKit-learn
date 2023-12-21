@@ -187,10 +187,11 @@ public:
     Iterator<T> end() override;
 
 
-
     //***********************************************************
     // Unary operations
     Tensor<T> transpose();
+
+    Tensor<T> reshape(std::vector<size_t> newShape);
 
 
     //***********************************************************
@@ -206,7 +207,6 @@ public:
     Tensor<T> operator%(const Tensor<T> &other) const;
 
     Tensor<T> pow(const Tensor<T> &other) const;
-
 
 
     //***********************************************************
@@ -246,7 +246,6 @@ public:
             typename = typename std::enable_if<std::is_arithmetic<V>::value>::type
     >
     Tensor<T> pow(const V &other) const;
-
 
 
     //***********************************************************

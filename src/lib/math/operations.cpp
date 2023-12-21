@@ -76,3 +76,11 @@ Tensor<T> transposeOperation(const Tensor<T> &t, std::vector<size_t> permutation
         return res;
     }
 }
+
+template<typename T>
+Tensor<T> reshapeOperation(const Tensor<T> &t, Shape newShape) {
+    if (t.dims() != newShape.size()) {
+        throw std::invalid_argument("New shape is not compatible with original array");
+    }
+    return Tensor<T>(newShape, t.data());
+}

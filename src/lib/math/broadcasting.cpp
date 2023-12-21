@@ -77,7 +77,7 @@ Tensor<T> broadcastOperator(const Tensor<T> &t1, const Tensor<T> &t2, T (*op)(T,
             }
         }
 
-        res.at(resIndex) = op(tOrig.at(Index(tOrig.shape(), tOrigIndices)),
+        res[resIndex] = op(tOrig.at(Index(tOrig.shape(), tOrigIndices)),
                               tEnhanced.at(Index(tEnhanced.shape(), tEnhancedIndices)));
         resIndex.next();
     }
