@@ -51,6 +51,15 @@ public:
     Iterator<T> begin() override;
 
     Iterator<T> end() override;
+
+    friend std::ostream &operator<<(std::ostream &os, const View<T> &view) {
+        if (view.isOneElement()) {
+            os << (T) view;
+            return os;
+        }
+        os << (Tensor<T>) view;
+        return os;
+    }
 };
 
 #include "View.tpp"
