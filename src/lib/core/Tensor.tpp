@@ -2,6 +2,8 @@
 
 #include "operations.cpp"
 
+#include <cmath>
+
 //***********************************************************
 // Constructors
 template<typename T>
@@ -290,4 +292,44 @@ template<
 >
 Tensor<T> Tensor<T>::pow(const V &other) const {
     return this->pow(Tensor<T>({1}, {other}));
+}
+
+
+//***********************************************************
+// Static initializers
+
+template<typename T>
+Tensor<T> Tensor<T>::full(std::vector<size_t> shape, T val) {
+    Tensor<T> tensor(shape);
+    for (T &e: tensor) {
+        e = val;
+    }
+    return tensor;
+}
+
+template<typename T>
+template<typename V, typename>
+Tensor<T> Tensor<T>::zeros(Shape shape) {
+    return Tensor<T>::full(shape, 0);
+}
+
+
+template<typename T>
+template<typename V, typename>
+Tensor<T> Tensor<T>::ones(Shape shape) {
+    return Tensor<T>::full(shape, 1);
+}
+
+template<typename T>
+template<typename V, typename>
+Tensor<T> Tensor<T>::range(T start, T end, T step) {
+    size_t size = std::ceil((float) (end - start) / step);
+    Tensor<T> tensor({size});
+
+    T curr = start;
+    for (T &e: tensor) {
+        e = curr;
+        curr += step;
+    }
+    return tensor;
 }

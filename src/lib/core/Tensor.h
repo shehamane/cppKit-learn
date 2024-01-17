@@ -9,12 +9,14 @@
 #include <optional>
 #include <string>
 #include <iostream>
+#include <type_traits>
 
 #include "indexing/Index.h"
 #include "indexing/Iterator.h"
 #include "indexing/Range.h"
 
 #define none Range::None()
+#define Shape std::vector<size_t>
 
 template<typename T>
 class View;
@@ -230,11 +232,35 @@ public:
     >
     Tensor<T> pow(const V &other) const;
 
+    //***********************************************************
+    // Static initializers
+
+    static Tensor<T> full(Shape shape, T val);
+
+    template<
+            typename V = T,
+            typename = typename std::enable_if_t<std::is_arithmetic_v<V>>
+    >
+    static Tensor<T> zeros(Shape shape);
+
+    template<
+            typename V = T,
+            typename = typename std::enable_if_t<std::is_arithmetic_v<V>>
+    >
+    static Tensor<T> ones(Shape shape);
+
+    template<
+            typename V = T,
+            typename = typename std::enable_if_t<std::is_arithmetic_v<V>>
+    >
+    static Tensor<T> range(T from, T to, T step = 1);
+
+
 
     //***********************************************************
     // Format
 
-    friend std::ostream& operator<<(std::ostream &os, const Tensor<T>& tensor) {
+    friend std::ostream &operator<<(std::ostream &os, const Tensor<T> &tensor) {
         std::vector<size_t> shape = tensor.shape();
         size_t dims = shape.size();
         if (dims == 1) {
