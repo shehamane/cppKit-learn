@@ -24,7 +24,7 @@ public:
 
     View<T> operator[](int index);
 
-    operator T() const;
+    operator T&() const;
 
     T at(Index index) const override;
 

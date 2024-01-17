@@ -49,11 +49,11 @@ View<T> View<T>::operator[](int index) {
 }
 
 template<typename T>
-View<T>::operator T() const {
+View<T>::operator T&() const {
     if (!isOneElement()) {
         throw std::out_of_range("attempt to cast a non-1-element representation to an element type");
     }
-    return tensor_.at(Index(tensor_.shape(), starts_));
+    return tensor_[Index(tensor_.shape(), starts_)];
 }
 
 template<typename T>
