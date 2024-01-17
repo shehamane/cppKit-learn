@@ -189,6 +189,8 @@ public:
 
     Tensor<T> pow(const Tensor<T> &other) const;
 
+    Tensor<T> matmul(const Tensor<T> &other) const;
+
 
     //***********************************************************
     // Binary operations with numbers

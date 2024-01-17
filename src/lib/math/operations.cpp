@@ -80,11 +80,43 @@ Tensor<T> transposeOperation(const Tensor<T> &t, std::vector<size_t> permutation
 template<typename T>
 Tensor<T> reshapeOperation(const Tensor<T> &t, Shape newShape) {
     size_t newSize = 1;
-    for (int i = 0; i < newShape.size(); ++i){
+    for (int i = 0; i < newShape.size(); ++i) {
         newSize *= newShape[i];
     }
     if (t.size() != newSize) {
         throw std::invalid_argument("New shape is not compatible with original array");
     }
     return Tensor<T>(newShape, t.data());
+}
+
+
+template<typename T>
+Tensor<T> matmulOperation(const Tensor<T> &lTensor, const Tensor<T> &rTensor) {
+    if (lTensor.dims() > 2 || rTensor.dims() > 2) {
+        throw std::invalid_argument("The tensors are not matrices or vectors");
+    }
+    Tensor<T> lt = lTensor, rt = rTensor;
+    if (lt.dims() == 1) {
+        lt.reshape({1, lt.size()});
+    }
+    if (rt.dims() == 1) {
+        rt.reshape({1, rt.size()});
+    }
+    size_t l = lt.shape()[lt.dims() - 2], n = rt.shape()[rt.dims() - 1];
+    if (lt.shape()[lt.dims() - 1] != rt.shape()[rt.dims() - 2]) {
+        throw std::invalid_argument("The dimensions of tensors are not suitable for multiplication");
+    }
+    size_t m = lt.shape()[lt.dims() - 1];
+
+    Tensor<T> res({m, m});
+
+    for (int i = 0; i < l; ++i) {
+        for (int j = 0; j < n; ++j) {
+            res[{i, j}] = 0;
+            for (int k = 0; k < m; ++k) {
+                res[{i, j}] += lt[{i, k}] * rt[{k, j}];
+            }
+        }
+    }
+    return res;
 }

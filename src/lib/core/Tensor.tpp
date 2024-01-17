@@ -231,6 +231,10 @@ Tensor<T> Tensor<T>::pow(const Tensor<T> &other) const {
     return power(*this, other);
 }
 
+template<typename T>
+Tensor<T> Tensor<T>::matmul(const Tensor<T> &other) const {
+    return matmulOperation(*this, other);
+}
 
 //***********************************************************
 // Binary operations with numbers
@@ -287,7 +291,3 @@ template<
 Tensor<T> Tensor<T>::pow(const V &other) const {
     return this->pow(Tensor<T>({1}, {other}));
 }
-
-
-//***********************************************************
-// Format
