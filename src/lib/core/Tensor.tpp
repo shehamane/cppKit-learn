@@ -2,8 +2,6 @@
 
 #include "operations.cpp"
 
-namespace UnaryOperation {};
-
 //***********************************************************
 // Constructors
 template<typename T>
