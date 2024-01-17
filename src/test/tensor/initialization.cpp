@@ -37,7 +37,7 @@ TEST(TensorInitTest, Init_WithZeroShape_ThrowException) {
 TEST(TensorInitTest, Init_FromView_EqualData) {
     Tensor<double> tensor1({5, 5, 5});
     for (Index i = Index::begin(tensor1.shape()); i != Index::end(tensor1.shape()); i.next()) {
-        tensor1.at(i) = (double) i.toFlat();
+        tensor1[i] = (double) i.toFlat();
     }
     std::vector<size_t> view_shape = {3, 3, 3};
     View<double> view(tensor1, {{0, 3, 1},
@@ -56,7 +56,7 @@ TEST(TensorInitTest, Init_FromView_EqualData) {
 TEST(TensorInitTest, Init_FromConstView_EqualData) {
     Tensor<double> tensor1({5, 5, 5});
     for (Index i = Index::begin(tensor1.shape()); i != Index::end(tensor1.shape()); i.next()) {
-        tensor1.at(i) = (double) i.toFlat();
+        tensor1[i] = (double) i.toFlat();
     }
     std::vector<size_t> viewShape = {5, 5};
     Tensor<double> tensor2 = tensor1[3];

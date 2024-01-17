@@ -48,7 +48,7 @@ TEST_F(TensorIndexingTest, GetAndSet_ByIndex_ChangesApplied) {
     Index index(tensor3d->shape(), {2, 3, 4});
 
     auto val = tensor3d->at(index);
-    tensor3d->at(index) = 933;
+    tensor3d->operator[](index) = 933;
 
     ASSERT_EQ(val, index.toFlat());
     ASSERT_EQ(tensor3d->at(index), 933);
@@ -95,7 +95,7 @@ TEST_F(TensorIndexingTest, IterateOverAll_DoSomeChangesWithIterator_ChangesAppli
 
 TEST_F(TensorIndexingTest, IterateOverAll_DoSomeChangesWithIndex_ChangesApplied) {
     for (Index i = Index::begin(tensor3d->shape()); i != Index::end(tensor3d->shape()); i.next()){
-        tensor3d->at(i) *= 10;
+        tensor3d->operator[](i) *= 10;
     }
 
     ASSERT_EQ(tensor3d->operator[]({4, 5, 6}), 2090);

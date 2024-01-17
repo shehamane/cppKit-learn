@@ -91,15 +91,7 @@ T Tensor<T>::at(Index index) const {
 //***********************************************************
 // Slicing
 template<typename T>
-View<T> Tensor<T>::slice(const std::vector<std::array<size_t, 3>> &ranges) {
-    if (ranges.size() != dims()) {
-        throw std::invalid_argument("ranges dimension is not equal to the original tensor dimension");
-    }
-    return View<T>(*this, ranges);
-}
-
-template<typename T>
-View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
+View<T> Tensor<T>::slice(const std::vector<Range> ranges) {
     if (ranges.size() > dims()) {
         throw std::invalid_argument("ranges dimension is greater then the original tensor dimension");
     }
@@ -124,7 +116,7 @@ View<T> Tensor<T>::operator[](const std::vector<Range> ranges) {
         normalRanges[i][1] = shape_[i];
         normalRanges[i][2] = 1;
     }
-    return this->slice(normalRanges);
+    return View<T>(*this, normalRanges);
 }
 
 template<typename T>
