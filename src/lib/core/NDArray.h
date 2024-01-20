@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
 
 class Index;
 
@@ -27,6 +28,13 @@ public:
     virtual T at(Index index) const = 0;
 
     virtual T &operator[](Index index) = 0;
+
+    virtual std::vector<T> data() const = 0;
+
+    template<typename Y>
+    friend std::ostream &operator<<(std::ostream &os, const NDArray<Y> &tensor);
 };
+
+#include "NDarray.tpp"
 
 #endif //CPPKIT_LEARN_ITERABLE_H

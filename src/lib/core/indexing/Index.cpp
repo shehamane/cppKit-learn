@@ -3,16 +3,20 @@
 
 #include "Index.h"
 
+Index::Index(std::vector<size_t> shape) : shape_(std::move(shape)) {
+    indices_ = std::vector<size_t>(shape.size(), 0);
+}
+
 Index::Index(std::vector<size_t> shape, std::vector<std::size_t> indices)
         : indices_(std::move(indices)), shape_(std::move(shape)) {
-    if (indices.size() != shape.size()){
+    if (indices.size() != shape.size()) {
         throw std::invalid_argument("indices and shape don't match each other");
     }
 }
 
 Index::Index(std::vector<size_t> shape, std::initializer_list<int> indicesList)
         : shape_(shape) {
-    if (indicesList.size() != shape.size()){
+    if (indicesList.size() != shape.size()) {
         throw std::invalid_argument("indices and shape don't match each other");
     }
     std::vector<int> indices(indicesList);
@@ -24,13 +28,23 @@ Index::Index(std::vector<size_t> shape, std::initializer_list<int> indicesList)
             }
             indices_[i] = shape[i] + indices[i];
         } else {
-            if (indices[i] >= shape[i]){
+            if (indices[i] >= shape[i]) {
                 throw std::out_of_range("index out of range");
             }
             indices_[i] = indices[i];
         }
     }
 }
+
+//Index::Index(std::vector<size_t> shape, unsigned int index)
+//        : shape_(std::move(shape)) {
+//    std::vector<size_t> indices(shape.size());
+//    for (int i = 0; i < shape.size(); ++i) {
+//        indices[i] = index / shape[i];
+//
+//        index = index % shape[i];
+//    }
+//}
 
 std::vector<std::size_t> Index::indices() {
     return indices_;
@@ -101,4 +115,8 @@ Index Index::begin(const std::vector<size_t> &shape) {
 
 Index Index::end(const std::vector<size_t> &shape) {
     return Index(shape, shape);
+}
+
+size_t &Index::operator[](int i) {
+    return indices_[i];
 }

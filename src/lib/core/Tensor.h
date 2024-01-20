@@ -28,7 +28,7 @@ class View;
  */
 template<typename T>
 class Tensor : public NDArray<T> {
-private:
+protected:
     std::vector<size_t> shape_;
     std::vector<T> data_;
 public:
@@ -255,90 +255,6 @@ public:
     >
     static Tensor<T> range(T from, T to, T step = 1);
 
-
-
-    //***********************************************************
-    // Format
-
-    friend std::ostream &operator<<(std::ostream &os, const Tensor<T> &tensor) {
-        std::vector<size_t> shape = tensor.shape();
-        size_t dims = shape.size();
-        if (dims == 1) {
-            os << "[ ";
-            for (size_t i = 0; i < shape[0]; ++i) {
-                os << tensor.data_[i] << " ";
-            }
-            os << "]";
-            return os;
-        }
-
-        if (dims == 2) {
-            os << "[";
-            for (size_t i = 0; i < shape[0]; ++i) {
-                os << "\n  [ ";
-                for (size_t j = 0; j < shape[1]; ++j) {
-                    os << tensor.data_[i * shape[1] + j] << " ";
-                }
-                os << "]";
-            }
-            os << "\n]";
-            return os;
-        }
-
-        os << "Tensor shape: {";
-        for (size_t i = 0; i < dims; ++i) {
-            os << shape[i];
-            if (i < dims - 1) {
-                os << ", ";
-            }
-        }
-        os << "}\n";
-
-        size_t max_layers = 5;
-        size_t max_rows = 5;
-        size_t max_cols = 5;
-
-        os << "[";
-        for (size_t layer = 0; layer < std::min(max_layers, shape[0]); ++layer) {
-            if (layer > 0) {
-                os << "\n ...\n";
-            }
-            os << " Layer " << layer << ":\n";
-            for (size_t row = 0; row < std::min(max_rows, shape[1]); ++row) {
-                os << "  [ ";
-                for (size_t col = 0; col < std::min(max_cols, shape[2]); ++col) {
-                    os << tensor.data_[(layer * shape[1] + row) * shape[2] + col] << " ";
-                }
-                if (max_cols < shape[2]) {
-                    os << "... ";
-                }
-                os << "]\n";
-            }
-            if (max_rows < shape[1]) {
-                os << "  ...\n";
-            }
-        }
-
-        if (max_layers < shape[0]) {
-            os << " ...\n";
-            os << " Layer " << shape[0] - 1 << ":\n";
-            for (size_t row = 0; row < std::min(max_rows, shape[1]); ++row) {
-                os << "  [ ";
-                for (size_t col = 0; col < std::min(max_cols, shape[2]); ++col) {
-                    os << tensor.data_[(shape[0] - 1) * shape[1] * shape[2] + row * shape[2] + col] << " ";
-                }
-                if (max_cols < shape[2]) {
-                    os << "... ";
-                }
-                os << "]\n";
-            }
-            if (max_rows < shape[1]) {
-                os << "  ...\n";
-            }
-        }
-        os << "]";
-        return os;
-    }
 };
 
 #include "Tensor.tpp"

@@ -13,9 +13,13 @@ private:
     std::vector<std::size_t> indices_;
     std::vector<std::size_t> shape_;
 public:
+    Index(std::vector<size_t> shape);
+
     explicit Index(std::vector<size_t> shape, std::vector<std::size_t> indices);
 
     explicit Index(std::vector<size_t> shape, std::initializer_list<int> indices);
+
+//    explicit Index(std::vector<size_t> shape, unsigned int index);
 
     std::vector<std::size_t> indices();
 
@@ -38,6 +42,8 @@ public:
     static Index begin(const std::vector<size_t>& shape);
 
     static Index end(const std::vector<size_t>& shape);
+
+    size_t &operator[](int i);
 };
 
 
